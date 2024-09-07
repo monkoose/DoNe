@@ -1,5 +1,5 @@
 <div align="center">
-<h1>Defold on Neovim (extended)</h1>
+<h1><a href="https://defold.com/">Defold</a> on Neovim (extended)</h1>
 </div>
 
 > [!Note]
@@ -73,7 +73,7 @@ Use it when opening in external editor creates new neovim windows.
 ## Script for opening neovim as defold external editor
 
 Opens only one neovim window by utilizing its server capabilities.
-Name it how you want (as example `neovim-for-defold`) and put it somewhere detected by your $PATH environment variable.
+Name it how you want (as example `neovim-for-defold`), make it executable and put in any dir in your $PATH environment variable.
 In defold's menu `File > Preferences > Code` change `Custom Editor` field to `neovim-for-defold` (or the name you chose).
 You don't need to change anything else.
 
