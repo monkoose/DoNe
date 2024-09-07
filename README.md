@@ -6,8 +6,8 @@
 > Work in progress. Tested only on Linux
 
 - Configures luals to better work with defold projects
-- Adds defold api annotations
-- Adds command to extract dependencies annotations
+- Includes defold api annotations
+- Adds a command to extract dependency annotations
 - Adds commands to build, hot-reload and fetch
 - Configures all defold filetypes to be properly detected and highlighted
 - Works with built-in LSP and with [coc.nvim](https://github.com/neoclide/coc.nvim)
@@ -18,8 +18,8 @@ Intended to be used as [external editor](#script-for-opening-neovim-as-defold-ex
 
 The plugin can work without dependencies, but if you want to get lsp documentation
 and completions for external libraries in ".internal" directory you need to install
-this dependencies and invoke `DoNe annotate` command.
-To run remote actions `curl` and `ss` utils should be installed (most Linux distros and MacOS have them by default).
+these dependencies and invoke `DoNe annotate` command.
+To run remote actions `curl` and `ss` utils should be installed (most Linux distros and MacOS include them by default).
 
 Make sure luarocks is using 5.1 lua version
 ```sh
@@ -64,17 +64,17 @@ DoNe provides neovim user command with the same name `:DoNe`:
 - **`:DoNe fetch`** - fetches project dependencies
 - **`:DoNe annotate`** - collects extensions annotations for improved autocompletion and documentation
 - **`:DoNe clear`** - removes all extensions annotations (useful when you change projects, so autocompletion wouldn't show them)
-- **`:DoNe actions`** - lists all available commands accepted by defold editor (can be used with `lua require('done.remote').actions(<cmd-name>)`)
+- **`:DoNe actions`** - lists all available commands accepted by defold editor (it can be used with `lua require('done.remote').actions(<cmd-name>)`)
 - **`:DoNe delete_server_pipe`** - if neovim started as external editor with instructions below and `servername=$HOME/.cache/nvim/defold.pipe`,
-then removes server pipe. Required because from time to time something goes wrong, so neovim stops connectiong to this pipe.
-Use it when opening in external editor creates new neovim windows.
+then removes the server pipe. Required because from time to time something goes wrong, so neovim stops connectiong to this pipe.
+Use it when opening an external editor creates new neovim windows.
 
 
 ## Script for opening neovim as defold external editor
 
 Opens only one neovim window by utilizing its server capabilities.
-Name it how you want (as example `neovim-for-defold`), make it executable and put in any dir in your $PATH environment variable.
-In defold's menu `File > Preferences > Code` change `Custom Editor` field to `neovim-for-defold` (or the name you chose).
+Name it how you want (for example `neovim-for-defold`), make it executable and put in any dir in your $PATH environment variable.
+On defold's menu `File > Preferences > Code` change `Custom Editor` field to `neovim-for-defold` (or the name you chose).
 You don't need to change anything else.
 
 ```sh
