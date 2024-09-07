@@ -75,7 +75,7 @@ Use it when opening an external editor creates new neovim windows.
 Opens only one neovim window by utilizing its server capabilities.
 Name it how you want (for example, `neovim-for-defold`), make it executable and put in any directory in your $PATH environment variable.
 On defold's menu `File > Preferences > Code` change the `Custom Editor` field to `neovim-for-defold` (or the name you chose).
-You don't need to change anything else.
+Change `st` in the script to your favorite terminal in which you would like to start neovim. You don't need to change anything else.
 
 ```sh
 #!/bin/sh
@@ -93,6 +93,7 @@ if nvim --server "$servername" --remote-expr "1" &> /dev/null; then
     nvim --server "$servername" --remote-send "<C-\\><C-n>:$command<CR>"
 else
     # If server not present start it, load DoNe plugin with lazy.nvim and open required file
+    # Change `st` to your favorite terminal
     st -e nvim --listen "$servername" +"lua require('lazy').load({ plugins = 'DoNe' })" \
         +"let &titlestring = '=defold editor=  %t'" +"$command"
 fi
