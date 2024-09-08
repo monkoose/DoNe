@@ -63,8 +63,9 @@ DoNe provides neovim user command with the same name `:DoNe`:
 - **`:DoNe build`** - builds and runs defold project
 - **`:DoNe reload`** - hot-reloads defold project
 - **`:DoNe fetch`** - fetches project dependencies
-- **`:DoNe annotate`** - collects extensions annotations for improved autocompletion and documentation
-- **`:DoNe clear`** - removes all annotations of the dependencies (useful when you change projects, so autocompletion wouldn't show them)
+- **`:DoNe annotate`** - collects dependency annotations for improved autocompletion and documentation. You may need to restart
+lsp to get them in the current neovim session.
+- **`:DoNe clear`** - removes annotations of all dependencies (useful when you change projects, so autocompletion wouldn't show them)
 - **`:DoNe actions`** - lists all available commands accepted by defold editor (it can be used with `lua require('done.remote').actions(<cmd-name>)`)
 - **`:DoNe delete_server_pipe`** - if neovim started as an external editor with instructions below and `servername=$HOME/.cache/nvim/defold.pipe`,
 then removes the server pipe. Required because from time to time something goes wrong, so neovim stops connectiong to this pipe.
