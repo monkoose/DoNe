@@ -7,29 +7,35 @@ local function get_commands(port)
 end
 
 local function set_defold_port()
-   local handle = io.popen("ss -tplH4")
-   if not handle then
-      vim.notify("Could not find Defold port", vim.log.levels.ERROR)
+   local ok, out = pcall(vim.system, { "ss", "-tplH4" })
+   if not ok then
+      ok, out = pcall(vim.system, { "lsof", "-nP", "-iTCP", "-sTCP:LISTEN" })
+      if not ok then
+         vim.notify("Can't find executables 'ss' or 'lsof'", vim.log.levels.ERROR)
+         return
+      end
+   end
+
+   local result = out:wait()
+   if result.code ~= 0 then
+      vim.notify(result.stderr, vim.log.levels.ERROR)
       return
    end
 
-   for conn in handle:lines() do
+   local pattern = ":(%d%d%d%d?%d?)"
+   for conn in vim.gsplit(result.stdout, "\n") do
       if conn:find("java") then
-         local _, _, port = conn:find("%d+%.%d+%.%d+%.%d+:(%d+)")
+         local _, _, port = conn:find(pattern)
          if port then
             if get_commands(port).code == 0 then
                defold_port = port
-               break
+               return
             end
          end
       end
    end
 
-   handle:close()
-
-   if not defold_port then
-      vim.notify("Could not find Defold port", vim.log.levels.ERROR)
-   end
+   vim.notify("Could not find Defold port", vim.log.levels.ERROR)
 end
 
 function M.get_actions()

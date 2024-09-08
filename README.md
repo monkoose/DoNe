@@ -19,7 +19,8 @@ Intended to be used as [external editor](#script-for-opening-neovim-as-defold-ex
 The plugin can work without dependencies, but if you want to get LSP documentation
 and completions for external libraries in the ".internal" directory, you need to install
 these dependencies and invoke `DoNe annotate` command.
-To run remote actions, `curl` and `ss` utils should be installed (most Linux distros and MacOS include them by default).
+To run remote actions, `curl` and one of `ss` or `lsof` utils must be exucutable
+(most Linux distros and MacOS include them by default).
 
 Make sure luarocks is using 5.1 lua version
 ```sh
