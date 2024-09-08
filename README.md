@@ -3,7 +3,7 @@
 </div>
 
 > [!Note]
-> Work in progress. Tested only on Linux
+> Work in progress. Tested only on Linux, but it should work on macOS as well.
 
 - Configures luals to better work with defold projects
 - Includes defold API annotations
