@@ -155,11 +155,11 @@ end
 
 ---Converts script_api string into lua_ls @meta annotations
 ---@param yaml_str string
----@return string?, string?
+---@return string?
 function parser.convert(yaml_str)
    local tbl = lyaml.load(yaml_str)
    if type(tbl) ~= "table" then
-      return nil, "Invalid script_api file"
+      return
    end
 
    local result = { "---@meta" }
@@ -170,7 +170,7 @@ function parser.convert(yaml_str)
       end
    end
 
-   return table.concat(result, "\n"), nil
+   return table.concat(result, "\n")
 end
 
 return parser
