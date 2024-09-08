@@ -1,12 +1,14 @@
 local fs = vim.fs
 local fn = vim.fn
 local nvim_create_user_command = vim.api.nvim_create_user_command
+local nvim_create_autocmd = vim.api.nvim_create_autocmd
 
 local cache_dir = fn.stdpath("cache")
 ---@diagnostic disable-next-line: param-type-mismatch
 local done_cache_dir = fs.joinpath(cache_dir, "DoNe")
 
 -- Returns the path to the plugin's `api` directory
+-- @return string
 local function api_path()
    local source = debug.getinfo(2, "S").source
    if source:sub(1, 1) == "@" then
@@ -39,6 +41,7 @@ local lua_ls_settings = {
 }
 
 local root_pattern = { "game.project" }
+local augroup = vim.api.nvim_create_augroup("DoneSetup", {})
 
 -- Filetype mappings
 vim.filetype.add({
@@ -87,8 +90,9 @@ vim.filetype.add({
 })
 
 -- Configure con.nvim
-vim.api.nvim_create_autocmd("User", {
+nvim_create_autocmd("User", {
    pattern = "CocNvimInit",
+   group = augroup,
    once = true,
    callback = function()
       fn["coc#config"]("languageserver", {
@@ -101,7 +105,8 @@ vim.api.nvim_create_autocmd("User", {
 })
 
 -- Confugure built-in LSP
-vim.api.nvim_create_autocmd("LspAttach", {
+nvim_create_autocmd("LspAttach", {
+   group = augroup,
    callback = function(ev)
       local buf_filetype = vim.filetype.match({ buf = ev.buf })
       if buf_filetype == "lua" then
