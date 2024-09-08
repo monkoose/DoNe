@@ -52,7 +52,7 @@ end
 
 ---Runs remote action to control Defold, the full list of actions can be obtained with `remote.get_actions()`
 ---@param cmd string command that can be accepted by defold http api
----@param stop boolean spefies if it should stop on error
+---@param stop? boolean spefies if it should stop on error
 function remote.action(cmd, stop)
    vim.system({
       "curl",
