@@ -1,4 +1,4 @@
-local M = {}
+local remote = {}
 
 local defold_port = 0
 
@@ -6,6 +6,7 @@ local function get_commands(port)
    return vim.system({ "curl", "-s", "http://localhost:" .. port .. "/command" }):wait()
 end
 
+---Detects defold port, on success sets `dofold_port` variable
 local function set_defold_port()
    local ok, out = pcall(vim.system, { "ss", "-tplH4" })
    if not ok then
@@ -38,7 +39,9 @@ local function set_defold_port()
    vim.notify("Could not find Defold port", vim.log.levels.ERROR)
 end
 
-function M.get_actions()
+---Returns output of `curl -s http://localhost:<defold_port>/command`
+---@return string
+function remote.get_actions()
    local actions = get_commands(defold_port)
    if actions.code ~= 0 then
       set_defold_port()
@@ -47,7 +50,10 @@ function M.get_actions()
    return actions.stdout
 end
 
-function M.action(cmd, retry)
+---Runs remote action to control Defold, the full list of actions can be obtained with `remote.get_actions()`
+---@param cmd string command that can be accepted by defold http api
+---@param stop boolean spefies if it should stop on error
+function remote.action(cmd, stop)
    vim.system({
       "curl",
       "-s",
@@ -56,21 +62,23 @@ function M.action(cmd, retry)
       "http://localhost:" .. defold_port .. "/command/" .. cmd,
    }, {}, function(obj)
       if obj.code ~= 0 then
-         if retry then
-            vim.notify(
-               "Error while sending command to " .. defold_port .. " port",
-               vim.log.levels.ERROR
-            )
+         if stop then
+            vim.schedule(function()
+               vim.notify(
+                  "Error while sending command to " .. defold_port .. " port",
+                  vim.log.levels.ERROR
+               )
+            end)
          else
             set_defold_port()
-            M.action(cmd, true)
+            remote.action(cmd, true)
          end
       elseif not obj.stdout:find("Accepted") then
          vim.schedule(function()
-            vim.notify("Request rejected: " .. obj.stdout, vim.log.levels.WARN)
+            vim.notify("Command '" .. cmd .. "' rejected: " .. obj.stdout, vim.log.levels.WARN)
          end)
       end
    end)
 end
 
-return M
+return remote
