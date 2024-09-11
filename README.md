@@ -76,8 +76,8 @@ Use it when opening an external editor creates new neovim windows.
 
 ## Script for opening neovim as defold external editor
 
-Opens only one neovim window by utilizing its server capabilities.
-Name it how you want (for example, `neovim-for-defold`), make it executable and put in any directory in your $PATH environment variable.
+Opens all files in the same neovim instance.
+Name the script how you want (for example, `neovim-for-defold`), make it executable and put in any directory in your $PATH environment variable.
 On defold's menu `File > Preferences > Code` change the `Custom Editor` field to `neovim-for-defold` (or the name you chose).
 Change `st` in the script to your favorite terminal in which you would like to start neovim. You don't need to change anything else.
 
