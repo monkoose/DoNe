@@ -5,7 +5,7 @@
 > [!Note]
 > Work in progress. Tested only on Linux, but it should work on macOS as well.
 
-- Configures luals to better work with defold projects
+- Configures lua_ls to better support  defold projects
 - Includes defold API annotations
 - Adds a command to extract dependency annotations
 - Adds commands to build, hot-reload and fetch
@@ -39,6 +39,8 @@ sudo luarocks install lyaml
 # luazip requires zziplib library
 # on ArchLinux zziplib can be installed with
 sudo pacman -S zziplib
+# On other distros or on macos you can build it from source
+# https://github.com/gdraheim/zziplib
 ```
 
 ## Install
