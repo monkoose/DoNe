@@ -1,6 +1,6 @@
 --[[
   Generated with github.com/astrochili/defold-annotations
-  Defold 1.9.2
+  Defold 1.9.3
 
   Timer API documentation
 
@@ -24,7 +24,7 @@ timer.INVALID_TIMER_HANDLE = nil
 
 ---You may cancel a timer from inside a timer callback.
 ---Cancelling a timer that is already executed or cancelled is safe.
----@param handle hash the timer handle returned by timer.delay()
+---@param handle integer the timer handle returned by timer.delay()
 ---@return boolean true if the timer was active, false if the timer is already cancelled / complete
 function timer.cancel(handle) end
 
@@ -41,15 +41,15 @@ function timer.cancel(handle) end
 ---self
 ---object The current object
 ---handle
----number The handle of the timer
+---integer The handle of the timer
 ---time_elapsed
 ---number The elapsed time - on first trigger it is time since timer.delay call, otherwise time since last trigger
 ---
----@return hash handle identifier for the create timer, returns timer.INVALID_TIMER_HANDLE if the timer can not be created
+---@return integer handle identifier for the create timer, returns timer.INVALID_TIMER_HANDLE if the timer can not be created
 function timer.delay(delay, repeating, callback) end
 
 ---Get information about timer.
----@param handle hash the timer handle returned by timer.delay()
+---@param handle integer the timer handle returned by timer.delay()
 ---@return { time_remaining:number, delay:number, repeating:boolean }|nil data table or nil if timer is cancelled/completed. table with data in the following fields:
 ---
 ---time_remaining
@@ -62,7 +62,7 @@ function timer.delay(delay, repeating, callback) end
 function timer.get_info(handle) end
 
 ---Manual triggering a callback for a timer.
----@param handle hash the timer handle returned by timer.delay()
+---@param handle integer the timer handle returned by timer.delay()
 ---@return boolean true if the timer was active, false if the timer is already cancelled / complete
 function timer.trigger(handle) end
 
