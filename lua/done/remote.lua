@@ -70,8 +70,10 @@ function remote.action(cmd, stop)
                )
             end)
          else
-            set_defold_port()
-            remote.action(cmd, true)
+            vim.schedule(function()
+               set_defold_port()
+               remote.action(cmd, true)
+            end)
          end
       elseif not obj.stdout:find("Accepted") then
          vim.schedule(function()
