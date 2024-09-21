@@ -76,65 +76,62 @@ Use it when opening an external editor creates new neovim windows.
 
 ## Script for opening neovim as defold external editor
 
-Opens all files in the same neovim instance.
 Name the script how you want (for example, `neovim-for-defold`), make it executable and put in any directory in your $PATH environment variable.
 On defold's menu `File > Preferences > Code` change the `Custom Editor` field to `neovim-for-defold` (or the name you chose).
+`Open File at Line` should be changed to `{file} {line}`.
+
 Change `st` in the script to your favorite terminal in which you would like to start neovim. You don't need to change anything else.
 
 ```sh
 #!/bin/sh
 
-regex="^(.*):([0-9]+)$"
+# change this to your favorite terminal
+term_exec="st"
 servername="$HOME/.cache/nvim/defold.pipe"
 
-if [[ $1 =~ $regex ]]; then
-    command="edit +${BASH_REMATCH[2]} ${BASH_REMATCH[1]}"
+if [[ "$#" -eq 2 ]]; then
+    command="edit +$2 $1"
 else
     command="edit $1"
 fi
 
-if nvim --server "$servername" --remote-expr "1" &> /dev/null; then
+if [[ -e "$servername" ]]; then
     nvim --server "$servername" --remote-send "<C-\\><C-n>:$command<CR>"
 else
-    # If server not present start it, load DoNe plugin with lazy.nvim and open required file
-    # Change `st` to your favorite terminal
-    st -e nvim --listen "$servername" +"lua require('lazy').load({ plugins = 'DoNe' })" \
-        +"let &titlestring = '=defold editor=  %t'" +"$command"
+    "$term_exec" -e nvim --listen "$servername" +"lua require('lazy').load({ plugins = 'DoNe' })" +"$command"
 fi
 ```
 
 <details>
 <summary>I'm using slightly modified version for better awesomewm integration.</summary>
 
-    #!/bin/sh
+```sh
+#!/bin/sh
 
-    regex="^(.*):([0-9]+)$"
-    servername="$HOME/.cache/nvim/defold.pipe"
+term_exec="st"
+servername="$HOME/.cache/nvim/defold.pipe"
 
-    if [[ $1 =~ $regex ]]; then
-        command="edit +${BASH_REMATCH[2]} ${BASH_REMATCH[1]}"
-    else
-        command="edit $1"
-    fi
+if [[ "$#" -eq 2 ]]; then
+    command="edit +$2 $1"
+else
+    command="edit $1"
+fi
 
-    if nvim --server "$servername" --remote-expr "1" &> /dev/null; then
-        nvim --server "$servername" --remote-send "<C-\\><C-n>:$command<CR>"
-
-        # Focus neovim window on awesomewm
-        for _, c in ipairs(client.get()) do
-            if string.match(c.name, "=defold editor=") then
-                c:jump_to()
-                break
-            end
+if [[ -e "$servername" ]]; then
+    nvim --server "$servername" --remote-send "<C-\\><C-n>:$command<CR>"
+    awesome-client '
+    for _, c in ipairs(client.get()) do
+        if string.match(c.name, "=defold=") then
+            c:jump_to()
+            break
         end
-        '
-
-    else
-        # change of `titlestring` required for focusing neovim window
-        st -e nvim --listen "$servername" +"lua require('lazy').load({ plugins = 'DoNe' })" \
-            +"let &titlestring = '=defold editor=  %t'" +"$command"
-    fi
-
+    end
+    '
+else
+    "$term_exec" -e nvim --listen "$servername" +"lua require('lazy').load({ plugins = 'DoNe' })" \
+        +"let &titlestring = '=defold=  %t'" +"$command"
+fi
+```
 </details>
 
 <details>
