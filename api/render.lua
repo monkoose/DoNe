@@ -1,6 +1,6 @@
 --[[
   Generated with github.com/astrochili/defold-annotations
-  Defold 1.9.3
+  Defold 1.9.4
 
   Rendering API documentation
 
@@ -95,7 +95,7 @@ function render.dispatch_compute(x, y, z, options) end
 ---@param options { frustum:matrix4|nil, frustum_planes:number|nil, constants:constant_buffer|nil }|nil optional table with properties:
 ---
 ---frustum
----vmath.matrix4 A frustum matrix used to cull renderable items. (E.g. local frustum = proj * view). default=nil
+---matrix4 A frustum matrix used to cull renderable items. (E.g. local frustum = proj * view). default=nil
 ---frustum_planes
 ---int Determines which sides of the frustum will be used. Default is render.FRUSTUM_PLANES_SIDES.
 ---
@@ -113,7 +113,7 @@ function render.draw(predicate, options) end
 ---@param options { frustum:matrix4|nil, frustum_planes:number|nil }|nil optional table with properties:
 ---
 ---frustum
----vmath.matrix4 A frustum matrix used to cull renderable items. (E.g. local frustum = proj * view). May be nil.
+---matrix4 A frustum matrix used to cull renderable items. (E.g. local frustum = proj * view). May be nil.
 ---frustum_planes
 ---int Determines which sides of the frustum will be used. Default is render.FRUSTUM_PLANES_SIDES.
 ---

@@ -1,10 +1,10 @@
 --[[
   Generated with github.com/astrochili/defold-annotations
-  Defold 1.9.3
+  Defold 1.9.4
 
   Camera API documentation
 
-  Camera functions, messages and constants.
+  Messages to control camera components and camera focus.
 --]]
 
 ---@meta
@@ -48,12 +48,12 @@ function camera.get_orthographic_zoom(camera) end
 
 ---get projection matrix
 ---@param camera url|resource_handle|nil camera id
----@return vmath.matrix4 projection the projection matrix.
+---@return matrix4 projection the projection matrix.
 function camera.get_projection(camera) end
 
 ---get view matrix
 ---@param camera url|resource_handle|nil camera id
----@return vmath.matrix4 view the view matrix.
+---@return matrix4 view the view matrix.
 function camera.get_view(camera) end
 
 ---set aspect ratio

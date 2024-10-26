@@ -1,6 +1,6 @@
 --[[
   Generated with github.com/astrochili/defold-annotations
-  Defold 1.9.3
+  Defold 1.9.4
 
   Vector math API documentation
 
@@ -34,6 +34,15 @@
 
 ---@class defold_api.vmath
 vmath = {}
+
+---Clamp input value to be in range of [min, max]. In case if input value has vector3|vector4 type
+---return new vector3|vector4 with clamped value at every vector's element.
+---Min/max arguments can be vector3|vector4. In that case clamp excuted per every vector's element
+---@param value number|vector3|vector4 Input value or vector of values
+---@param min number|vector3|vector4 Min value(s) border
+---@param max number|vector3|vector4 Max value(s) border
+---@return number|vector3|vector4 clamped_value Clamped value or vector
+function vmath.clamp(value, min, max) end
 
 ---Calculates the conjugate of a quaternion. The result is a
 ---quaternion with the same magnitudes but with the sign of
@@ -87,6 +96,15 @@ function vmath.length(v) end
 ---@return number n squared length
 function vmath.length_sqr(v) end
 
+---Linearly interpolate between two values. Lerp is useful
+---to describe transitions from one value to another over time.
+--- The function does not clamp t between 0 and 1.
+---@param t number interpolation parameter, 0-1
+---@param n1 number number to lerp from
+---@param n2 number number to lerp to
+---@return number n the lerped number
+function vmath.lerp(t, n1, n2) end
+
 ---Linearly interpolate between two quaternions. Linear
 ---interpolation of rotations are only useful for small
 ---rotations. For interpolations of arbitrary rotations,
@@ -109,20 +127,6 @@ function vmath.lerp(t, q1, q2) end
 ---@return vector3|vector4 v the lerped vector
 function vmath.lerp(t, v1, v2) end
 
----Linearly interpolate between two values. Lerp is useful
----to describe transitions from one value to another over time.
---- The function does not clamp t between 0 and 1.
----@param t number interpolation parameter, 0-1
----@param n1 number number to lerp from
----@param n2 number number to lerp to
----@return number n the lerped number
-function vmath.lerp(t, n1, n2) end
-
----The resulting identity matrix describes a transform with
----no translation or rotation.
----@return matrix4 m identity matrix
-function vmath.matrix4() end
-
 ---Creates a new matrix with all components set to the
 ---corresponding values from the supplied matrix. I.e.
 ---the function creates a copy of the given matrix.
@@ -130,16 +134,24 @@ function vmath.matrix4() end
 ---@return matrix4 m matrix which is a copy of the specified matrix
 function vmath.matrix4(m1) end
 
+---The resulting identity matrix describes a transform with
+---no translation or rotation.
+---@return matrix4 m identity matrix
+function vmath.matrix4() end
+
 ---The resulting matrix describes a rotation around the axis by the specified angle.
 ---@param v vector3 axis
 ---@param angle number angle in radians
 ---@return matrix4 m matrix represented by axis and angle
 function vmath.matrix4_axis_angle(v, angle) end
 
----The resulting matrix describes the same rotation as the quaternion, but does not have any translation (also like the quaternion).
----@param q quaternion quaternion to create matrix from
----@return matrix4 m matrix represented by quaternion
-function vmath.matrix4_from_quat(q) end
+---Creates a new matrix constructed from separate
+---translation vector, roation quaternion and scale vector
+---@param translation vector3|vecto4 translation
+---@param rotation quaternion rotation
+---@param scale vector3 scale
+---@return matrix4 matrix new matrix4
+function vmath.matrix4_compose(translation, rotation, scale) end
 
 ---Constructs a frustum matrix from the given values. The left, right,
 ---top and bottom coordinates of the view cone are expressed as distances
@@ -183,6 +195,11 @@ function vmath.matrix4_orthographic(left, right, bottom, top, near, far) end
 ---@return matrix4 m perspective projection matrix
 function vmath.matrix4_perspective(fov, aspect, near, far) end
 
+---The resulting matrix describes the same rotation as the quaternion, but does not have any translation (also like the quaternion).
+---@param q quaternion quaternion to create matrix from
+---@return matrix4 m matrix represented by quaternion
+function vmath.matrix4_quat(q) end
+
 ---The resulting matrix describes a rotation around the x-axis
 ---by the specified angle.
 ---@param angle number angle in radians around x-axis
@@ -200,6 +217,23 @@ function vmath.matrix4_rotation_y(angle) end
 ---@param angle number angle in radians around z-axis
 ---@return matrix4 m matrix from rotation around z-axis
 function vmath.matrix4_rotation_z(angle) end
+
+---Creates a new matrix4 from three scale components
+---@param scale_x number scale along X axis
+---@param scale_y number sclae along Y axis
+---@param scale_z number scale along Z asis
+---@return matrix4 matrix new matrix4
+function vmath.matrix4_scale(scale_x, scale_y, scale_z) end
+
+---Creates a new matrix constructed from scale vector
+---@param scale vector3 scale
+---@return matrix4 matrix new matrix4
+function vmath.matrix4_scale(scale) end
+
+---creates a new matrix4 from uniform scale
+---@param scale number scale
+---@return matrix4 matrix new matrix4
+function vmath.matrix4_scale(scale) end
 
 ---The resulting matrix describes a translation of a point
 ---in euclidean space.
@@ -247,6 +281,13 @@ function vmath.project(v1, v2) end
 ---@return quaternion q new identity quaternion
 function vmath.quat() end
 
+---Creates a new quaternion with all components set to the
+---corresponding values from the supplied quaternion. I.e.
+---This function creates a copy of the given quaternion.
+---@param q1 quaternion existing quaternion
+---@return quaternion q new quaternion
+function vmath.quat(q1) end
+
 ---Creates a new quaternion with the components set
 ---according to the supplied parameter values.
 ---@param x number x coordinate
@@ -255,13 +296,6 @@ function vmath.quat() end
 ---@param w number w coordinate
 ---@return quaternion q new quaternion
 function vmath.quat(x, y, z, w) end
-
----Creates a new quaternion with all components set to the
----corresponding values from the supplied quaternion. I.e.
----This function creates a copy of the given quaternion.
----@param q1 quaternion existing quaternion
----@return quaternion q new quaternion
-function vmath.quat(q1) end
 
 ---The resulting quaternion describes a rotation of angle
 ---radians around the axis described by the unit vector v.
@@ -289,6 +323,12 @@ function vmath.quat_basis(x, y, z) end
 ---@return quaternion q quaternion representing the rotation from first to second vector
 function vmath.quat_from_to(v1, v2) end
 
+---Creates a new quaternion with the components set
+---according to the supplied parameter values.
+---@param matrix matrix4 source matrix4
+---@return quaternion q new quaternion
+function vmath.quat_matrix4(matrix) end
+
 ---The resulting quaternion describes a rotation of angle
 ---radians around the x-axis.
 ---@param angle number angle in radians around x-axis
@@ -315,19 +355,6 @@ function vmath.quat_rotation_z(angle) end
 ---@return vector3 v the rotated vector
 function vmath.rotate(q, v1) end
 
----Slerp travels the torque-minimal path maintaining constant
----velocity, which means it travels along the straightest path along
----the rounded surface of a sphere. Slerp is useful for interpolation
----of rotations.
----Slerp travels the torque-minimal path, which means it travels
----along the straightest path the rounded surface of a sphere.
---- The function does not clamp t between 0 and 1.
----@param t number interpolation parameter, 0-1
----@param q1 quaternion quaternion to slerp from
----@param q2 quaternion quaternion to slerp to
----@return quaternion q the slerped quaternion
-function vmath.slerp(t, q1, q2) end
-
 ---Spherically interpolates between two vectors. The difference to
 ---lerp is that slerp treats the vectors as directions instead of
 ---positions in space.
@@ -342,6 +369,19 @@ function vmath.slerp(t, q1, q2) end
 ---@return vector3|vector4 v the slerped vector
 function vmath.slerp(t, v1, v2) end
 
+---Slerp travels the torque-minimal path maintaining constant
+---velocity, which means it travels along the straightest path along
+---the rounded surface of a sphere. Slerp is useful for interpolation
+---of rotations.
+---Slerp travels the torque-minimal path, which means it travels
+---along the straightest path the rounded surface of a sphere.
+--- The function does not clamp t between 0 and 1.
+---@param t number interpolation parameter, 0-1
+---@param q1 quaternion quaternion to slerp from
+---@param q2 quaternion quaternion to slerp to
+---@return quaternion q the slerped quaternion
+function vmath.slerp(t, q1, q2) end
+
 ---Creates a vector of arbitrary size. The vector is initialized
 ---with numeric values from a table.
 --- The table values are converted to floating point
@@ -352,11 +392,14 @@ function vmath.slerp(t, v1, v2) end
 function vmath.vector(t) end
 
 ---Creates a new vector with all components set to the
----corresponding values from the supplied vector. I.e.
----This function creates a copy of the given vector.
----@param v1 vector3 existing vector
+---supplied scalar value.
+---@param n number scalar value to splat
 ---@return vector3 v new vector
-function vmath.vector3(v1) end
+function vmath.vector3(n) end
+
+---Creates a new zero vector with all components set to 0.
+---@return vector3 v new zero vector
+function vmath.vector3() end
 
 ---Creates a new vector with the components set to the
 ---supplied values.
@@ -366,15 +409,29 @@ function vmath.vector3(v1) end
 ---@return vector3 v new vector
 function vmath.vector3(x, y, z) end
 
+---Creates a new vector with all components set to the
+---corresponding values from the supplied vector. I.e.
+---This function creates a copy of the given vector.
+---@param v1 vector3 existing vector
+---@return vector3 v new vector
+function vmath.vector3(v1) end
+
+---Creates a new vector with all components set to the
+---corresponding values from the supplied vector. I.e.
+---This function creates a copy of the given vector.
+---@param v1 vector4 existing vector
+---@return vector4 v new vector
+function vmath.vector4(v1) end
+
 ---Creates a new zero vector with all components set to 0.
----@return vector3 v new zero vector
-function vmath.vector3() end
+---@return vector4 v new zero vector
+function vmath.vector4() end
 
 ---Creates a new vector with all components set to the
 ---supplied scalar value.
 ---@param n number scalar value to splat
----@return vector3 v new vector
-function vmath.vector3(n) end
+---@return vector4 v new vector
+function vmath.vector4(n) end
 
 ---Creates a new vector with the components set to the
 ---supplied values.
@@ -384,22 +441,5 @@ function vmath.vector3(n) end
 ---@param w number w coordinate
 ---@return vector4 v new vector
 function vmath.vector4(x, y, z, w) end
-
----Creates a new vector with all components set to the
----supplied scalar value.
----@param n number scalar value to splat
----@return vector4 v new vector
-function vmath.vector4(n) end
-
----Creates a new zero vector with all components set to 0.
----@return vector4 v new zero vector
-function vmath.vector4() end
-
----Creates a new vector with all components set to the
----corresponding values from the supplied vector. I.e.
----This function creates a copy of the given vector.
----@param v1 vector4 existing vector
----@return vector4 v new vector
-function vmath.vector4(v1) end
 
 return vmath

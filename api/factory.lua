@@ -1,6 +1,6 @@
 --[[
   Generated with github.com/astrochili/defold-annotations
-  Defold 1.9.3
+  Defold 1.9.4
 
   Factory API documentation
 

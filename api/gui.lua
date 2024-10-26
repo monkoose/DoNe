@@ -1,12 +1,8 @@
 --[[
   Generated with github.com/astrochili/defold-annotations
-  Defold 1.9.3
+  Defold 1.9.4
 
   GUI API documentation
-
-  GUI core hooks, functions, messages, properties and constants for
-  creation and manipulation of GUI nodes. The "gui" namespace is
-  accessible only from gui scripts.
 --]]
 
 ---@meta

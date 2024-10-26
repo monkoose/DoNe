@@ -1,6 +1,6 @@
 --[[
   Generated with github.com/astrochili/defold-annotations
-  Defold 1.9.3
+  Defold 1.9.4
 
   Collision object physics API documentation
 --]]
@@ -187,7 +187,7 @@ function physics.raycast(from, to, groups, options) end
 ---@param from vector3 the world position of the start of the ray
 ---@param to vector3 the world position of the end of the ray
 ---@param groups table a lua table containing the hashed groups for which to test collisions against
----@param request_id number|nil a number between [0,-255]. It will be sent back in the response for identification, 0 by default
+---@param request_id number|nil a number in range [0,255]. It will be sent back in the response for identification, 0 by default
 function physics.raycast_async(from, to, groups, request_id) end
 
 ---Set the gravity in runtime. The gravity change is not global, it will only affect
