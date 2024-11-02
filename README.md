@@ -89,13 +89,13 @@ Change `st` in the script to your favorite terminal in which you would like to s
 term_exec="st"
 servername="$HOME/.cache/nvim/defold.pipe"
 
-if [[ "$#" -eq 2 ]]; then
+if [ "$#" -eq 2 ]; then
     command="edit +$2 $1"
 else
     command="edit $1"
 fi
 
-if [[ -e "$servername" ]]; then
+if [ -e "$servername" ]; then
     nvim --server "$servername" --remote-send "<C-\\><C-n>:$command<CR>"
 else
     "$term_exec" -e nvim --listen "$servername" +"lua require('lazy').load({ plugins = 'DoNe' })" +"$command"
@@ -111,13 +111,13 @@ fi
 term_exec="st"
 servername="$HOME/.cache/nvim/defold.pipe"
 
-if [[ "$#" -eq 2 ]]; then
+if [ "$#" -eq 2 ]; then
     command="edit +$2 $1"
 else
     command="edit $1"
 fi
 
-if [[ -e "$servername" ]]; then
+if [ -e "$servername" ]; then
     nvim --server "$servername" --remote-send "<C-\\><C-n>:$command<CR>"
     awesome-client '
     for _, c in ipairs(client.get()) do
