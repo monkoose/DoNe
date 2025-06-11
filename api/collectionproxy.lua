@@ -1,6 +1,6 @@
 --[[
   Generated with github.com/astrochili/defold-annotations
-  Defold 1.9.4
+  Defold 1.10.2
 
   Collection proxy API documentation
 
@@ -13,6 +13,7 @@
 ---@diagnostic disable: missing-return
 ---@diagnostic disable: duplicate-doc-param
 ---@diagnostic disable: duplicate-set-field
+---@diagnostic disable: args-after-dots
 
 ---@class defold_api.collectionproxy
 collectionproxy = {}
@@ -53,7 +54,7 @@ function collectionproxy.missing_resources(collectionproxy) end
 ---Setting the collection to "nil" will revert it back to the original collection.
 ---The collection proxy shouldn't be loaded and should have the 'Exclude' checkbox checked.
 ---This functionality is designed to simplify the management of Live Update resources.
----@param url string|hash|url|nil the collection proxy component
+---@param url string|hash|url the collection proxy component
 ---@param prototype string|nil the path to the new collection, or nil
 ---@return boolean success collection change was successful
 ---@return number code one of the collectionproxy.RESULT_* codes if unsuccessful

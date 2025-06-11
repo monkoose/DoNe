@@ -1,10 +1,10 @@
 --[[
   Generated with github.com/astrochili/defold-annotations
-  Defold 1.9.4
+  Defold 1.10.2
 
   Camera API documentation
 
-  Messages to control camera components and camera focus.
+  Camera functions, messages and constants.
 --]]
 
 ---@meta
@@ -12,6 +12,7 @@
 ---@diagnostic disable: missing-return
 ---@diagnostic disable: duplicate-doc-param
 ---@diagnostic disable: duplicate-set-field
+---@diagnostic disable: args-after-dots
 
 ---@class defold_api.camera
 camera = {}
@@ -25,6 +26,11 @@ function camera.get_aspect_ratio(camera) end
 ---registered in the render context.
 ---@return table cameras a table with all camera URLs
 function camera.get_cameras() end
+
+---get enabled
+---@param camera url|resource_handle|nil camera id
+---@return bool flag true if the camera is enabled
+function camera.get_enabled(camera) end
 
 ---get far z
 ---@param camera url|resource_handle|nil camera id
@@ -43,7 +49,7 @@ function camera.get_near_z(camera) end
 
 ---get orthographic zoom
 ---@param camera url|resource_handle|nil camera id
----@return boolean orthographic_zoom true if the camera is using an orthographic projection.
+---@return number orthographic_zoom the zoom level when the camera uses orthographic projection.
 function camera.get_orthographic_zoom(camera) end
 
 ---get projection matrix
@@ -78,7 +84,7 @@ function camera.set_near_z(camera, near_z) end
 
 ---set orthographic zoom
 ---@param camera url|resource_handle|nil camera id
----@param orthographic_zoom boolean true if the camera is using an orthographic projection.
+---@param orthographic_zoom number the zoom level when the camera uses orthographic projection.
 function camera.set_orthographic_zoom(camera, orthographic_zoom) end
 
 return camera

@@ -1,19 +1,21 @@
 --[[
   Generated with github.com/astrochili/defold-annotations
-  Defold 1.9.4
+  Defold 1.10.2
 
   Bitwise operations API documentation
 
-  Lua BitOp is a C extension module for Lua 5.1/5.2 which adds bitwise operations on numbers.
+  [Lua BitOp](http://bitop.luajit.org/api.html) is a C extension module for Lua 5.1/5.2 which adds bitwise operations on numbers.
   Lua BitOp is Copyright © 2008-2012 Mike Pall.
   Lua BitOp is free software, released under the MIT license (same license as the Lua core).
   Lua BitOp is compatible with the built-in bitwise operations in LuaJIT 2.0 and is used
   on platforms where Defold runs without LuaJIT.
-  For clarity the examples assume the definition of a helper function printx().
+  For clarity the examples assume the definition of a helper function `printx()`.
   This prints its argument as an unsigned 32 bit hexadecimal number on all platforms:
+  ```lua
   function printx(x)
     print("0x"..bit.tohex(x))
   end
+  ```
 --]]
 
 ---@meta
@@ -21,6 +23,7 @@
 ---@diagnostic disable: missing-return
 ---@diagnostic disable: duplicate-doc-param
 ---@diagnostic disable: duplicate-set-field
+---@diagnostic disable: args-after-dots
 
 ---@class defold_api.bit
 bit = {}
@@ -35,7 +38,7 @@ function bit.arshift(x, n) end
 
 ---Returns the bitwise and of all of its arguments. Note that more than two arguments are allowed.
 ---@param x1 number number
----@param ... number|nil number(s)
+---@param ... number number(s)
 ---@return number y bitwise and of the provided arguments
 function bit.band(x1, ...) end
 
@@ -46,7 +49,7 @@ function bit.bnot(x) end
 
 ---Returns the bitwise or of all of its arguments. Note that more than two arguments are allowed.
 ---@param x1 number number
----@param ... number|nil number(s)
+---@param ... number number(s)
 ---@return number y bitwise or of the provided arguments
 function bit.bor(x1, ...) end
 
@@ -57,7 +60,7 @@ function bit.bswap(x) end
 
 ---Returns the bitwise xor of all of its arguments. Note that more than two arguments are allowed.
 ---@param x1 number number
----@param ... number|nil number(s)
+---@param ... number number(s)
 ---@return number y bitwise xor of the provided arguments
 function bit.bxor(x1, ...) end
 

@@ -1,6 +1,6 @@
 --[[
   Generated with github.com/astrochili/defold-annotations
-  Defold 1.9.4
+  Defold 1.10.2
 
   Image API documentation
 
@@ -12,6 +12,7 @@
 ---@diagnostic disable: missing-return
 ---@diagnostic disable: duplicate-doc-param
 ---@diagnostic disable: duplicate-set-field
+---@diagnostic disable: args-after-dots
 
 ---@class defold_api.image
 image = {}
@@ -30,7 +31,7 @@ image.TYPE_RGBA = nil
 
 ---Load image (PNG or JPEG) from buffer.
 ---@param buffer string image data buffer
----@param options table|nil An optional table containing parameters for loading the image. Supported entries:
+---@param options table An optional table containing parameters for loading the image. Supported entries:
 ---
 ---premultiply_alpha
 ---boolean True if alpha should be premultiplied into the color components. Defaults to false.
@@ -54,7 +55,7 @@ function image.load(buffer, options) end
 
 ---Load image (PNG or JPEG) from a string buffer.
 ---@param buffer string image data buffer
----@param options table|nil An optional table containing parameters for loading the image. Supported entries:
+---@param options table An optional table containing parameters for loading the image. Supported entries:
 ---
 ---premultiply_alpha
 ---boolean True if alpha should be premultiplied into the color components. Defaults to false.

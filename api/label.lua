@@ -1,8 +1,10 @@
 --[[
   Generated with github.com/astrochili/defold-annotations
-  Defold 1.9.4
+  Defold 1.10.2
 
   Label API documentation
+
+  Functions to manipulate a label component.
 --]]
 
 ---@meta
@@ -10,6 +12,7 @@
 ---@diagnostic disable: missing-return
 ---@diagnostic disable: duplicate-doc-param
 ---@diagnostic disable: duplicate-set-field
+---@diagnostic disable: args-after-dots
 
 ---@class defold_api.label
 label = {}
@@ -23,7 +26,7 @@ function label.get_text(url) end
 --- This method uses the message passing that means the value will be set after dispatch messages step.
 ---More information is available in the Application Lifecycle manual.
 ---@param url string|hash|url the label that should have a constant set
----@param text string the text
+---@param text string|number the text
 function label.set_text(url, text) end
 
 return label

@@ -1,6 +1,6 @@
 --[[
   Generated with github.com/astrochili/defold-annotations
-  Defold 1.9.4
+  Defold 1.10.2
 
   Particle effects API documentation
 
@@ -13,6 +13,7 @@
 ---@diagnostic disable: missing-return
 ---@diagnostic disable: duplicate-doc-param
 ---@diagnostic disable: duplicate-set-field
+---@diagnostic disable: args-after-dots
 
 ---@class defold_api.particlefx
 particlefx = {}
@@ -34,7 +35,7 @@ particlefx.EMITTER_STATE_SPAWNING = nil
 ---Which particle FX to play is identified by the URL.
 --- A particle FX will continue to emit particles even if the game object the particle FX component belonged to is deleted. You can call particlefx.stop() to stop it from emitting more particles.
 ---@param url string|hash|url the particle fx that should start playing.
----@param emitter_state_function fun(self, id, emitter, state)|nil optional callback function that will be called when an emitter attached to this particlefx changes state.
+---@param emitter_state_function fun(self, id, emitter, state) optional callback function that will be called when an emitter attached to this particlefx changes state.
 ---
 ---self
 ---object The current object
@@ -77,7 +78,7 @@ function particlefx.set_constant(url, emitter, constant, value) end
 ---Stopping a particle FX does not remove already spawned particles.
 ---Which particle FX to stop is identified by the URL.
 ---@param url string|hash|url the particle fx that should stop playing
----@param options { clear:boolean|nil }|nil Options when stopping the particle fx. Supported options:
+---@param options { clear:boolean|nil } Options when stopping the particle fx. Supported options:
 ---
 ---boolean clear: instantly clear spawned particles
 ---

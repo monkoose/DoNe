@@ -1,6 +1,6 @@
 --[[
   Generated with github.com/astrochili/defold-annotations
-  Defold 1.9.4
+  Defold 1.10.2
 
   Built-ins API documentation
 
@@ -12,6 +12,7 @@
 ---@diagnostic disable: missing-return
 ---@diagnostic disable: duplicate-doc-param
 ---@diagnostic disable: duplicate-set-field
+---@diagnostic disable: args-after-dots
 
 ---All ids in the engine are represented as hashes, so a string needs to be hashed
 ---before it can be compared with an id.
@@ -24,10 +25,3 @@ function hash(s) end
 ---@param h hash hash value to get hex string for
 ---@return string hex hex representation of the hash
 function hash_to_hex(h) end
-
----Pretty printing of Lua values. This function prints Lua values
----in a manner similar to +print()+, but will also recurse into tables
----and pretty print them. There is a limit to how deep the function
----will recurse.
----@param ... any value to print
-function pprint(...) end

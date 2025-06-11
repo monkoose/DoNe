@@ -1,8 +1,10 @@
 --[[
   Generated with github.com/astrochili/defold-annotations
-  Defold 1.9.4
+  Defold 1.10.2
 
   Sprite API documentation
+
+  Functions, messages and properties used to manipulate sprite components.
 --]]
 
 ---@meta
@@ -10,6 +12,7 @@
 ---@diagnostic disable: missing-return
 ---@diagnostic disable: duplicate-doc-param
 ---@diagnostic disable: duplicate-set-field
+---@diagnostic disable: args-after-dots
 
 ---@class defold_api.sprite
 sprite = {}
@@ -20,7 +23,7 @@ sprite = {}
 ---a animation_done message is sent to the script that started the animation.
 ---@param url string|hash|url the sprite that should play the animation
 ---@param id string|hash hashed id of the animation to play
----@param complete_function fun(self, message_id, message, sender)|nil function to call when the animation has completed.
+---@param complete_function fun(self, message_id, message, sender) function to call when the animation has completed.
 ---
 ---self
 ---object The current object.
@@ -37,7 +40,7 @@ sprite = {}
 ---sender
 ---url The invoker of the callback: the sprite component.
 ---
----@param play_properties table|nil optional table with properties:
+---@param play_properties table optional table with properties:
 ---
 ---offset
 ---number the normalized initial value of the animation cursor when the animation starts playing.

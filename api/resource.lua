@@ -1,6 +1,6 @@
 --[[
   Generated with github.com/astrochili/defold-annotations
-  Defold 1.9.4
+  Defold 1.10.2
 
   Resource API documentation
 
@@ -12,6 +12,7 @@
 ---@diagnostic disable: missing-return
 ---@diagnostic disable: duplicate-doc-param
 ---@diagnostic disable: duplicate-set-field
+---@diagnostic disable: args-after-dots
 
 ---@class defold_api.resource
 resource = {}
@@ -20,7 +21,7 @@ resource = {}
 ---Load the specified resource as part of loading the script
 ---Return a hash to the run-time version of the resource
 --- This function can only be called within go.property function calls.
----@param path string|nil optional resource path string to the resource
+---@param path string optional resource path string to the resource
 ---@return hash path a path hash to the binary version of the resource
 function resource.atlas(path) end
 
@@ -28,7 +29,7 @@ function resource.atlas(path) end
 ---Load the specified resource as part of loading the script
 ---Return a hash to the run-time version of the resource
 --- This function can only be called within go.property function calls.
----@param path string|nil optional resource path string to the resource
+---@param path string optional resource path string to the resource
 ---@return hash path a path hash to the binary version of the resource
 function resource.buffer(path) end
 
@@ -125,14 +126,38 @@ function resource.buffer(path) end
 ---
 ---
 ---
+---width
+---number The width of the image the sprite geometry represents
+---
+---
+---
+---
+---height
+---number The height of the image the sprite geometry represents
+---
+---
+---
+---
+---pivot_x
+---number The pivot x value of the image in unit coords. (0,0) is upper left corner, (1,1) is bottom right. Default is 0.5.
+---
+---
+---
+---
+---pivot_y
+---number The pivot y value of the image in unit coords. (0,0) is upper left corner, (1,1) is bottom right. Default is 0.5.
+---
+---
+---
+---
 ---vertices
----table a list of the vertices in texture space of the geometry in the form {px0, py0, px1, py1, ..., pxn, pyn}
+---table a list of the vertices in image space of the geometry in the form {px0, py0, px1, py1, ..., pxn, pyn}
 ---
 ---
 ---
 ---
 ---uvs
----table a list of the uv coordinates in texture space of the geometry in the form of {u0, v0, u1, v1, ..., un, vn}
+---table a list of the uv coordinates in image space of the geometry in the form of {u0, v0, u1, v1, ..., un, vn}.
 ---
 ---
 ---
@@ -154,7 +179,7 @@ function resource.create_atlas(path, table) end
 ---Note that the path to the new resource must have the '.bufferc' extension, "/path/my_buffer" is not a valid path but "/path/my_buffer.bufferc" is.
 ---The path must also be unique, attempting to create a buffer with the same name as an existing resource will raise an error.
 ---@param path string The path to the resource.
----@param table { buffer:buffer_data, transfer_ownership:boolean|nil }|nil A table containing info about how to create the buffer. Supported entries:
+---@param table { buffer:buffer_data, transfer_ownership:boolean|nil } A table containing info about how to create the buffer. Supported entries:
 ---
 ---
 ---
@@ -172,6 +197,21 @@ function resource.create_atlas(path, table) end
 ---@return hash path Returns the buffer resource path
 function resource.create_buffer(path, table) end
 
+---Creates a sound data resource
+---Supported formats are .oggc, .opusc and .wavc
+---@param path string the path to the resource. Must not already exist.
+---@param options { data:string|nil, filesize:number|nil, partial:boolean|nil } A table containing parameters for the text. Supported entries:
+---
+---data
+---string The raw data of the file. May be partial, but must include the header of the file
+---filesize
+---number If the file is partial, it must also specify the full size of the complete file.
+---partial
+---boolean Is the data not representing the full file, but just the initial chunk?
+---
+---@return hash path_hash the resulting path hash to the resource
+function resource.create_sound_data(path, options) end
+
 ---Creates a new texture resource that can be used in the same way as any texture created during build time.
 ---The path used for creating the texture must be unique, trying to create a resource at a path that is already
 ---registered will trigger an error. If the intention is to instead modify an existing texture, use the resource.set_texture
@@ -179,21 +219,25 @@ function resource.create_buffer(path, table) end
 ---meaning "/path/my_texture" is not a valid path but "/path/my_texture.texturec" is.
 ---If the texture is created without a buffer, the pixel data will be blank.
 ---@param path string The path to the resource.
----@param table { type:number, width:number, height:number, format:number, flags:number|nil, max_mipmaps:number|nil, compression_type:number|nil} A table containing info about how to create the texture. Supported entries:
+---@param table { type:number, width:number, height:number, depth:number, format:number, flags:number|nil, max_mipmaps:number|nil, compression_type:number|nil} A table containing info about how to create the texture. Supported entries:
 ---
 ---type
 ---number The texture type. Supported values:
 ---
 ---
 ---graphics.TEXTURE_TYPE_2D
----graphics.TEXTURE_TYPE_CUBE_MAP
 ---graphics.TEXTURE_TYPE_IMAGE_2D
+---graphics.TEXTURE_TYPE_3D
+---graphics.TEXTURE_TYPE_IMAGE_3D
+---graphics.TEXTURE_TYPE_CUBE_MAP
 ---
 ---
 ---width
 ---number The width of the texture (in pixels). Must be larger than 0.
 ---height
 ---number The width of the texture (in pixels). Must be larger than 0.
+---depth
+---number The depth of the texture (in pixels). Must be larger than 0. Only used when type is graphics.TEXTURE_TYPE_3D or graphics.TEXTURE_TYPE_IMAGE_3D.
 ---format
 ---number The texture format, note that some of these formats might not be supported by the running device. Supported values:
 ---
@@ -254,6 +298,11 @@ function resource.create_buffer(path, table) end
 ---
 ---@param buffer buffer_data optional buffer of precreated pixel data
 ---@return hash path The path to the resource.
+--- 3D Textures are currently only supported on OpenGL and Vulkan adapters. To check if your device supports 3D textures, use:
+---```lua
+---if graphics.TEXTURE_TYPE_3D ~= nil then
+---    -- Device and graphics adapter support 3D textures
+---end
 function resource.create_texture(path, table, buffer) end
 
 ---Creates a new texture resource that can be used in the same way as any texture created during build time.
@@ -266,14 +315,17 @@ function resource.create_texture(path, table, buffer) end
 ---in a graphics worker thread. The function will return a resource immediately that contains a 1x1 blank texture which can be used
 ---immediately after the function call. When the new texture has been uploaded, the initial blank texture will be deleted and replaced with the
 ---new texture. Be careful when using the initial texture handle handle as it will not be valid after the upload has finished.
----@param path string The path to the resource.
----@param table { type:number, width:number, height:number, format:number, flags:number|nil, max_mipmaps:number|nil, compression_type:number|nil} 
+---@param path string|hash The path to the resource.
+---@param table { type:number, width:number, height:number, depth:number, format:number, flags:number|nil, max_mipmaps:number|nil, compression_type:number|nil} 
 ---A table containing info about how to create the texture. Supported entries:
 ---type
 ---number The texture type. Supported values:
 ---
 ---
 ---graphics.TEXTURE_TYPE_2D
+---graphics.TEXTURE_TYPE_IMAGE_2D
+---graphics.TEXTURE_TYPE_3D
+---graphics.TEXTURE_TYPE_IMAGE_3D
 ---graphics.TEXTURE_TYPE_CUBE_MAP
 ---
 ---
@@ -281,6 +333,8 @@ function resource.create_texture(path, table, buffer) end
 ---number The width of the texture (in pixels). Must be larger than 0.
 ---height
 ---number The width of the texture (in pixels). Must be larger than 0.
+---depth
+---number The depth of the texture (in pixels). Must be larger than 0. Only used when type is graphics.TEXTURE_TYPE_3D or graphics.TEXTURE_TYPE_IMAGE_3D.
 ---format
 ---number The texture format, note that some of these formats might not be supported by the running device. Supported values:
 ---
@@ -312,6 +366,12 @@ function resource.create_texture(path, table, buffer) end
 ---graphics.TEXTURE_FORMAT_R32F
 ---graphics.TEXTURE_FORMAT_RG32F
 ---
+---You can test if the device supports these values by checking if a specific enum is nil or not:
+---if graphics.TEXTURE_FORMAT_RGBA16F ~= nil then
+---    -- it is safe to use this format
+---end
+---
+---
 ---
 ---flags
 ---number Texture creation flags that can be used to dictate how the texture is created. Supported values:
@@ -320,12 +380,6 @@ function resource.create_texture(path, table, buffer) end
 ---graphics.TEXTURE_USAGE_FLAG_SAMPLE - The texture can be sampled from a shader (default)
 ---graphics.TEXTURE_USAGE_FLAG_MEMORYLESS - The texture can be used as a memoryless texture, i.e only transient memory for the texture is used during rendering
 ---graphics.TEXTURE_USAGE_FLAG_STORAGE - The texture can be used as a storage texture, which is required for a shader to write to the texture
----
----You can test if the device supports these values by checking if a specific enum is nil or not:
----if graphics.TEXTURE_FORMAT_RGBA16F ~= nil then
----    -- it is safe to use this format
----end
----
 ---
 ---
 ---max_mipmaps
@@ -339,15 +393,19 @@ function resource.create_texture(path, table, buffer) end
 ---COMPRESSION_TYPE_BASIS_UASTC
 ---
 ---@param buffer buffer_data optional buffer of precreated pixel data
----@return hash path The path to the resource.
 ---@return resource_handle request_id The request id for the async request.
+--- 3D Textures are currently only supported on OpenGL and Vulkan adapters. To check if your device supports 3D textures, use:
+---```lua
+---if graphics.TEXTURE_TYPE_3D ~= nil then
+---    -- Device and graphics adapter support 3D textures
+---end
 function resource.create_texture_async(path, table, buffer) end
 
 ---Constructor-like function with two purposes:
 ---Load the specified resource as part of loading the script
 ---Return a hash to the run-time version of the resource
 --- This function can only be called within go.property function calls.
----@param path string|nil optional resource path string to the resource
+---@param path string optional resource path string to the resource
 ---@return hash path a path hash to the binary version of the resource
 function resource.font(path) end
 
@@ -418,7 +476,7 @@ function resource.get_render_target_info(path) end
 ---Gets the text metrics from a font
 ---@param url hash the font to get the (unscaled) metrics from
 ---@param text string text to measure
----@param options { width:number|nil, leading:number|nil, tracking:number|nil, line_break:boolean|nil}|nil A table containing parameters for the text. Supported entries:
+---@param options { width:number|nil, leading:number|nil, tracking:number|nil, line_break:boolean|nil} A table containing parameters for the text. Supported entries:
 ---
 ---width
 ---integer The width of the text field. Not used if line_break is false.
@@ -449,7 +507,9 @@ function resource.get_text_metrics(url, text, options) end
 ---height
 ---integer height of the texture
 ---depth
----integer depth of the texture (i.e 1 for a 2D texture and 6 for a cube map)
+---integer depth of the texture (i.e 1 for a 2D texture, 6 for a cube map, the actual depth of a 3D texture)
+---page_count
+---integer number of pages of the texture array. For 2D texture value is 1. For cube map - 6
 ---mipmaps
 ---integer number of mipmaps of the texture
 ---flags
@@ -459,9 +519,11 @@ function resource.get_text_metrics(url, text, options) end
 ---
 ---
 ---graphics.TEXTURE_TYPE_2D
----graphics.TEXTURE_TYPE_IMAGE_2D
----graphics.TEXTURE_TYPE_CUBE_MAP
 ---graphics.TEXTURE_TYPE_2D_ARRAY
+---graphics.TEXTURE_TYPE_IMAGE_2D
+---graphics.TEXTURE_TYPE_3D
+---graphics.TEXTURE_TYPE_IMAGE_3D
+---graphics.TEXTURE_TYPE_CUBE_MAP
 ---
 function resource.get_texture_info(path) end
 
@@ -474,7 +536,7 @@ function resource.load(path) end
 ---Load the specified resource as part of loading the script
 ---Return a hash to the run-time version of the resource
 --- This function can only be called within go.property function calls.
----@param path string|nil optional resource path string to the resource
+---@param path string optional resource path string to the resource
 ---@return hash path a path hash to the binary version of the resource
 function resource.material(path) end
 
@@ -487,7 +549,7 @@ function resource.release(path) end
 ---Load the specified resource as part of loading the script
 ---Return a hash to the run-time version of the resource
 --- This function can only be called within go.property function calls.
----@param path string|nil optional resource path string to the resource
+---@param path string optional resource path string to the resource
 ---@return hash path a path hash to the binary version of the resource
 function resource.render_target(path) end
 
@@ -612,7 +674,7 @@ function resource.set_atlas(path, table) end
 ---Note: When setting a buffer with transfer_ownership = true, the currently bound buffer in the resource will be destroyed.
 ---@param path hash|string The path to the resource
 ---@param buffer buffer_data The resource buffer
----@param table { transfer_ownership: boolean|nil }|nil A table containing info about how to set the buffer. Supported entries:
+---@param table { transfer_ownership: boolean|nil } A table containing info about how to set the buffer. Supported entries:
 ---
 ---
 ---
@@ -623,20 +685,23 @@ function resource.set_atlas(path, table) end
 ---
 function resource.set_buffer(path, buffer, table) end
 
----Update internal sound resource (wavc/oggc) with new data
+---Update internal sound resource (wavc/oggc/opusc) with new data
 ---@param path hash|string The path to the resource
 ---@param buffer string A lua string containing the binary sound data
 function resource.set_sound(path, buffer) end
 
 ---Sets the pixel data for a specific texture.
 ---@param path hash|string The path to the resource
----@param table { type:number, width:number, height:number, format:number, x:number|nil, y:number|nil, mipmap:number|nil, compression_type:number|nil} A table containing info about the texture. Supported entries:
+---@param table { type:number, width:number, height:number, format:number, x:number|nil, y:number|nil, z:number|nil, mipmap:number|nil, compression_type:number|nil} A table containing info about the texture. Supported entries:
 ---
 ---type
 ---number The texture type. Supported values:
 ---
 ---
 ---graphics.TEXTURE_TYPE_2D
+---graphics.TEXTURE_TYPE_IMAGE_2D
+---graphics.TEXTURE_TYPE_3D
+---graphics.TEXTURE_TYPE_IMAGE_3D
 ---graphics.TEXTURE_TYPE_CUBE_MAP
 ---
 ---
@@ -684,6 +749,10 @@ function resource.set_sound(path, buffer) end
 ---number optional x offset of the texture (in pixels)
 ---y
 ---number optional y offset of the texture (in pixels)
+---z
+---number optional z offset of the texture (in pixels). Only applies to 3D textures
+---page
+---number optional slice of the array texture. Only applies to 2D texture arrays. Zero-based
 ---mipmap
 ---number optional mipmap to upload the data to
 ---compression_type
@@ -695,13 +764,18 @@ function resource.set_sound(path, buffer) end
 ---
 ---@param buffer buffer_data The buffer of precreated pixel data
 --- To update a cube map texture you need to pass in six times the amount of data via the buffer, since a cube map has six sides!
+--- 3D Textures are currently only supported on OpenGL and Vulkan adapters. To check if your device supports 3D textures, use:
+---```lua
+---if graphics.TEXTURE_TYPE_3D ~= nil then
+---    -- Device and graphics adapter support 3D textures
+---end
 function resource.set_texture(path, table, buffer) end
 
 ---Constructor-like function with two purposes:
 ---Load the specified resource as part of loading the script
 ---Return a hash to the run-time version of the resource
 --- This function can only be called within go.property function calls.
----@param path string|nil optional resource path string to the resource
+---@param path string optional resource path string to the resource
 ---@return hash path a path hash to the binary version of the resource
 function resource.texture(path) end
 
@@ -709,7 +783,7 @@ function resource.texture(path) end
 ---Load the specified resource as part of loading the script
 ---Return a hash to the run-time version of the resource
 --- This function can only be called within go.property function calls.
----@param path string|nil optional resource path string to the resource
+---@param path string optional resource path string to the resource
 ---@return hash path a path hash to the binary version of the resource
 function resource.tile_source(path) end
 

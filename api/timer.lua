@@ -1,12 +1,12 @@
 --[[
   Generated with github.com/astrochili/defold-annotations
-  Defold 1.9.4
+  Defold 1.10.2
 
   Timer API documentation
 
   Timers allow you to set a delay and a callback to be called when the timer completes.
   The timers created with this API are updated with the collection timer where they
-  are created. If you pause or speed up the collection (using set_time_step) it will
+  are created. If you pause or speed up the collection (using `set_time_step`) it will
   also affect the new timer.
 --]]
 
@@ -15,6 +15,7 @@
 ---@diagnostic disable: missing-return
 ---@diagnostic disable: duplicate-doc-param
 ---@diagnostic disable: duplicate-set-field
+---@diagnostic disable: args-after-dots
 
 ---@class defold_api.timer
 timer = {}

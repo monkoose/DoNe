@@ -1,6 +1,6 @@
 --[[
   Generated with github.com/astrochili/defold-annotations
-  Defold 1.9.4
+  Defold 1.10.2
 
   Messaging API documentation
 
@@ -12,6 +12,7 @@
 ---@diagnostic disable: missing-return
 ---@diagnostic disable: duplicate-doc-param
 ---@diagnostic disable: duplicate-set-field
+---@diagnostic disable: args-after-dots
 
 ---@class defold_api.msg
 msg = {}
@@ -29,9 +30,9 @@ msg = {}
 function msg.post(receiver, message_id, message) end
 
 ---creates a new URL from separate arguments
----@param socket string|hash|nil socket of the URL
----@param path string|hash|nil path of the URL
----@param fragment string|hash|nil fragment of the URL
+---@param socket string|hash socket of the URL
+---@param path string|hash path of the URL
+---@param fragment string|hash fragment of the URL
 ---@return url url a new URL
 function msg.url(socket, path, fragment) end
 

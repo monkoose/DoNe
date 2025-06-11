@@ -1,6 +1,6 @@
 --[[
   Generated with github.com/astrochili/defold-annotations
-  Defold 1.9.4
+  Defold 1.10.2
 
   Graphics API documentation
 
@@ -12,6 +12,7 @@
 ---@diagnostic disable: missing-return
 ---@diagnostic disable: duplicate-doc-param
 ---@diagnostic disable: duplicate-set-field
+---@diagnostic disable: args-after-dots
 
 ---@class defold_api.graphics
 graphics = {}
@@ -301,11 +302,17 @@ graphics.TEXTURE_TYPE_2D = nil
 ---
 graphics.TEXTURE_TYPE_2D_ARRAY = nil
 
+---May be nil if the graphics driver doesn't support it
+graphics.TEXTURE_TYPE_3D = nil
+
 ---
 graphics.TEXTURE_TYPE_CUBE_MAP = nil
 
 ---
 graphics.TEXTURE_TYPE_IMAGE_2D = nil
+
+---May be nil if the graphics driver doesn't support it
+graphics.TEXTURE_TYPE_IMAGE_3D = nil
 
 ---
 graphics.TEXTURE_USAGE_FLAG_COLOR = nil

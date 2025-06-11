@@ -1,11 +1,11 @@
 --[[
   Generated with github.com/astrochili/defold-annotations
-  Defold 1.9.4
+  Defold 1.10.2
 
   Profiler API documentation
 
   Functions for getting profiling data in runtime.
-  More detailed profiling and debugging information available in the manuals.
+  More detailed [profiling](https://www.defold.com/manuals/profiling/) and [debugging](http://www.defold.com/manuals/debugging/) information available in the manuals.
 --]]
 
 ---@meta
@@ -13,6 +13,7 @@
 ---@diagnostic disable: missing-return
 ---@diagnostic disable: duplicate-doc-param
 ---@diagnostic disable: duplicate-set-field
+---@diagnostic disable: args-after-dots
 
 ---@class defold_api.profiler
 profiler = {}
@@ -34,6 +35,15 @@ profiler.VIEW_MODE_FULL = nil
 
 ---show mimimal profiler ui
 profiler.VIEW_MODE_MINIMIZED = nil
+
+---logs the current frame to the console
+function profiler.dump_frame() end
+
+---The profiler is a real-time tool that shows the numbers of milliseconds spent
+---in each scope per frame as well as counters. The profiler is very useful for
+---tracking down performance and resource problems.
+---@param enabled boolean true to enable, false to disable
+function profiler.enable(enabled) end
 
 ---Creates and shows or hides and destroys the on-sceen profiler ui
 ---The profiler is a real-time tool that shows the numbers of milliseconds spent
@@ -65,8 +75,8 @@ function profiler.get_cpu_usage() end
 ---@return number bytes used by the application
 function profiler.get_memory_usage() end
 
----Send a text to the profiler
----@param text string the string to send to the profiler
+---Send a text to the connected profiler
+---@param text string the string to send to the connected profiler
 function profiler.log_text(text) end
 
 ---Get the number of recorded frames in the on-screen profiler ui recording buffer
@@ -91,7 +101,6 @@ function profiler.scope_end() end
 ---To stop recording, switch to a different mode such as MODE_PAUSE or MODE_RUN.
 ---You can also use the view_recorded_frame function to display a recorded frame. Doing so stops the recording as well.
 ---Every time you switch to recording mode the recording buffer is cleared.
----The recording buffer is also cleared when setting the MODE_SHOW_PEAK_FRAME mode.
 function profiler.set_ui_mode(mode) end
 
 ---Set the on-screen profile view mode - minimized or expanded

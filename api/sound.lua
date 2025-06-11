@@ -1,8 +1,11 @@
 --[[
   Generated with github.com/astrochili/defold-annotations
-  Defold 1.9.4
+  Defold 1.10.2
 
   Sound API documentation
+
+  Functions and messages for controlling sound components and
+  mixer groups.
 --]]
 
 ---@meta
@@ -10,17 +13,14 @@
 ---@diagnostic disable: missing-return
 ---@diagnostic disable: duplicate-doc-param
 ---@diagnostic disable: duplicate-set-field
+---@diagnostic disable: args-after-dots
 
 ---@class defold_api.sound
 sound = {}
 
 ---Get mixer group gain
---- Note that gain is in linear scale, between 0 and 1.
----To get the dB value from the gain, use the formula 20 * log(gain).
----Inversely, to find the linear value from a dB value, use the formula
----10db/20.
 ---@param group string|hash group name
----@return number gain gain in linear scale
+---@return number gain gain in [0 1] range ([-60dB.. 0dB])
 function sound.get_group_gain(group) end
 
 ---Get a mixer group name as a string.
@@ -89,13 +89,9 @@ function sound.is_phone_call_active() end
 function sound.pause(url, pause) end
 
 ---Make the sound component play its sound. Multiple voices are supported. The limit is set to 32 voices per sound component.
---- Note that gain is in linear scale, between 0 and 1.
----To get the dB value from the gain, use the formula 20 * log(gain).
----Inversely, to find the linear value from a dB value, use the formula
----10db/20.
 --- A sound will continue to play even if the game object the sound component belonged to is deleted. You can call sound.stop() to stop the sound.
 ---@param url string|hash|url the sound that should play
----@param play_properties { delay:number|nil, gain:number|nil, pan:number|nil, speed:number|nil }|nil 
+---@param play_properties { delay:number|nil, gain:number|nil, pan:number|nil, speed:number|nil } 
 ---optional table with properties:
 ---delay
 ---number delay in seconds before the sound starts playing, default is 0.
@@ -106,7 +102,7 @@ function sound.pause(url, pause) end
 ---speed
 ---number sound speed where 1.0 is normal speed, 0.5 is half speed and 2.0 is double speed. The final speed of the sound will be a multiplication of this speed and the sound speed.
 ---
----@param complete_function fun(self, message_id, message, sender)|nil function to call when the sound has finished playing or stopped manually via sound.stop.
+---@param complete_function fun(self, message_id, message, sender) function to call when the sound has finished playing or stopped manually via sound.stop.
 ---
 ---self
 ---object The current object.
@@ -126,32 +122,24 @@ function sound.pause(url, pause) end
 function sound.play(url, play_properties, complete_function) end
 
 ---Set gain on all active playing voices of a sound.
---- Note that gain is in linear scale, between 0 and 1.
----To get the dB value from the gain, use the formula 20 * log(gain).
----Inversely, to find the linear value from a dB value, use the formula
----10db/20.
 ---@param url string|hash|url the sound to set the gain of
----@param gain number|nil sound gain between 0 and 1. The final gain of the sound will be a combination of this gain, the group gain and the master gain.
+---@param gain number sound gain between 0 and 1 [-60dB .. 0dB]. The final gain of the sound will be a combination of this gain, the group gain and the master gain.
 function sound.set_gain(url, gain) end
 
 ---Set mixer group gain
---- Note that gain is in linear scale, between 0 and 1.
----To get the dB value from the gain, use the formula 20 * log(gain).
----Inversely, to find the linear value from a dB value, use the formula
----10db/20.
 ---@param group string|hash group name
----@param gain number gain in linear scale
+---@param gain number gain in range [0..1] mapped to [0 .. -60dB]
 function sound.set_group_gain(group, gain) end
 
 ---Set panning on all active playing voices of a sound.
 ---The valid range is from -1.0 to 1.0, representing -45 degrees left, to +45 degrees right.
 ---@param url string|hash|url the sound to set the panning value to
----@param pan number|nil sound panning between -1.0 and 1.0
+---@param pan number sound panning between -1.0 and 1.0
 function sound.set_pan(url, pan) end
 
 ---Stop playing all active voices or just one voice if play_id provided
 ---@param url string|hash|url the sound component that should stop
----@param stop_properties { play_id:number }|nil 
+---@param stop_properties { play_id:number } 
 ---optional table with properties:
 ---play_id
 ---number the sequential play identifier that should be stopped (was given by the sound.play() function)

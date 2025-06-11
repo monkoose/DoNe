@@ -1,6 +1,6 @@
 --[[
   Generated with github.com/astrochili/defold-annotations
-  Defold 1.9.4
+  Defold 1.10.2
 
   Box2D b2Body documentation
 
@@ -12,6 +12,7 @@
 ---@diagnostic disable: missing-return
 ---@diagnostic disable: duplicate-doc-param
 ---@diagnostic disable: duplicate-set-field
+---@diagnostic disable: args-after-dots
 
 ---@class defold_api.b2d.body
 b2d.body = {}
@@ -58,9 +59,15 @@ function b2d.body.apply_linear_impulse(body, impulse, point) end
 ---@param torque number torque about the z-axis (out of the screen), usually in N-m.
 function b2d.body.apply_torque(body, torque) end
 
----Print the body representation to the log output
+---You can disable sleeping on this body. If you disable sleeping, the body will be woken.
 ---@param body b2Body body
-function b2d.body.dump(body) end
+---@param enable bool if false, the body will never sleep, and consume more CPU
+function b2d.body.enable_sleep(body, enable) end
+
+---Get the angle in radians.
+---@param body b2Body body
+---@return number angle the current world rotation angle in radians.
+function b2d.body.get_angle(body) end
 
 ---Get the angular damping of the body.
 ---@param body b2Body body
@@ -76,11 +83,6 @@ function b2d.body.get_angular_velocity(body) end
 ---@param body b2Body body
 ---@return number scale the scale
 function b2d.body.get_gravity_scale(body) end
-
----Get the rotational inertia of the body about the local origin.
----@param body b2Body body
----@return number inertia the rotational inertia, usually in kg-m^2.
-function b2d.body.get_inertia(body) end
 
 ---Get the linear damping of the body.
 ---@param body b2Body body
@@ -107,7 +109,7 @@ function b2d.body.get_linear_velocity_from_world_point(body, world_point) end
 ---Get the local position of the center of mass.
 ---@param body b2Body body
 ---@return vector3 center Get the local position of the center of mass.
-function b2d.body.get_local_center(body) end
+function b2d.body.get_local_center_of_mass(body) end
 
 ---Gets a local point relative to the body's origin given a world point.
 ---@param body b2Body body
@@ -126,15 +128,15 @@ function b2d.body.get_local_vector(body, world_vector) end
 ---@return number mass the mass, usually in kilograms (kg).
 function b2d.body.get_mass(body) end
 
----Get the next body in the world's body list.
----@param body b2Body body
----@return b2Body body the next body
-function b2d.body.get_next(body) end
-
 ---Get the world body origin position.
 ---@param body b2Body body
 ---@return vector3 position the world position of the body's origin.
 function b2d.body.get_position(body) end
+
+---Get the rotational inertia of the body about the local origin.
+---@param body b2Body body
+---@return number inertia the rotational inertia, usually in kg-m^2.
+function b2d.body.get_rotational_inertia(body) end
 
 ---Get the type of this body.
 ---@param body b2Body body
@@ -149,12 +151,7 @@ function b2d.body.get_world(body) end
 ---Get the world position of the center of mass.
 ---@param body b2Body body
 ---@return vector3 center Get the world position of the center of mass.
-function b2d.body.get_world_center(body) end
-
----Get the angle in radians.
----@param body b2Body body
----@return number angle the current world rotation angle in radians.
-function b2d.body.get_world_center(body) end
+function b2d.body.get_world_center_of_mass(body) end
 
 ---Get the world coordinates of a point given the local coordinates.
 ---@param body b2Body body
@@ -191,7 +188,7 @@ function b2d.body.is_fixed_rotation(body) end
 ---Is this body allowed to sleep
 ---@param body b2Body body
 ---@return bool enabled true if the body is allowed to sleep
-function b2d.body.is_sleeping_allowed(body) end
+function b2d.body.is_sleeping_enabled(body) end
 
 ---This resets the mass properties to the sum of the mass properties of the fixtures.
 ---This normally does not need to be called unless you called SetMassData to override
@@ -254,11 +251,6 @@ function b2d.body.set_linear_damping(body, damping) end
 ---@param body b2Body body
 ---@param velocity vector3 the new linear velocity of the center of mass.
 function b2d.body.set_linear_velocity(body, velocity) end
-
----You can disable sleeping on this body. If you disable sleeping, the body will be woken.
----@param body b2Body body
----@param enable bool if false, the body will never sleep, and consume more CPU
-function b2d.body.set_sleeping_allowed(body, enable) end
 
 ---Set the position of the body's origin and rotation.
 ---This breaks any contacts and wakes the other bodies.

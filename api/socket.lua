@@ -1,17 +1,19 @@
 --[[
   Generated with github.com/astrochili/defold-annotations
-  Defold 1.9.4
+  Defold 1.10.2
 
   LuaSocket API documentation
 
-  LuaSocket is a Lua extension library that provides
+  [LuaSocket](https://github.com/diegonehab/luasocket) is a Lua extension library that provides
   support for the TCP and UDP transport layers. Defold provides the "socket" namespace in
   runtime, which contain the core C functionality. Additional LuaSocket support modules for
   SMTP, HTTP, FTP etc are not part of the core included, but can be easily added to a project
   and used.
   Note the included helper module "socket.lua" in "builtins/scripts/socket.lua". Require this
   module to add some additional functions and shortcuts to the namespace:
+  ```lua
   require "builtins.scripts.socket"
+  ```
   LuaSocket is Copyright © 2004-2007 Diego Nehab. All rights reserved.
   LuaSocket is free software, released under the MIT license (same license as the Lua core).
 --]]
@@ -21,6 +23,7 @@
 ---@diagnostic disable: missing-return
 ---@diagnostic disable: duplicate-doc-param
 ---@diagnostic disable: duplicate-set-field
+---@diagnostic disable: args-after-dots
 
 ---@class defold_api.socket
 socket = {}
@@ -38,9 +41,9 @@ socket._VERSION = nil
 ---your system configuration.
 ---@param address string the address to connect to.
 ---@param port number the port to connect to.
----@param locaddr string|nil optional local address to bind to.
----@param locport number|nil optional local port to bind to.
----@param family string|nil optional socket family to use, "inet" or "inet6".
+---@param locaddr string optional local address to bind to.
+---@param locport number optional local port to bind to.
+---@param family string optional socket family to use, "inet" or "inet6".
 ---@return socket_client|nil tcp_client a new IPv6 TCP client object, or nil in case of error.
 ---@return string|nil error the error message, or nil if no error occurred.
 function socket.connect(address, port, locaddr, locport, family) end
@@ -124,7 +127,7 @@ function socket.protect(func) end
 ---(Using select with non-socket objects: Any object that implements getfd and dirty can be used with select, allowing objects from other libraries to be used within a socket.select driven loop.)
 ---@param recvt table array with the sockets to test for characters available for reading.
 ---@param sendt table array with sockets that are watched to see if it is OK to immediately write on them.
----@param timeout number|nil the maximum amount of time (in seconds) to wait for a change in status. Nil, negative or omitted timeout value allows the function to block indefinitely.
+---@param timeout number the maximum amount of time (in seconds) to wait for a change in status. Nil, negative or omitted timeout value allows the function to block indefinitely.
 ---@return table sockets_r a list with the sockets ready for reading.
 ---@return table sockets_w a list with the sockets ready for writing.
 ---@return string|nil error an error message. "timeout" if a timeout condition was met, otherwise nil.
@@ -135,9 +138,9 @@ function socket.select(recvt, sendt, timeout) end
 ---D is the number of arguments to drop. Ret1 to retN are the arguments.
 ---The function returns retD+1 to retN.
 ---@param d number the number of arguments to drop.
----@param ret1 any|nil argument 1.
----@param ret2 any|nil argument 2.
----@param retN any|nil argument N.
+---@param ret1 any argument 1.
+---@param ret2 any argument 2.
+---@param retN any argument N.
 ---@return any|nil retD+1 argument D+1.
 ---@return any|nil retD+2 argument D+2.
 ---@return any|nil retN argument N.

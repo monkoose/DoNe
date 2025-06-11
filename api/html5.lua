@@ -1,11 +1,11 @@
 --[[
   Generated with github.com/astrochili/defold-annotations
-  Defold 1.9.4
+  Defold 1.10.2
 
   HTML5 API documentation
 
   HTML5 platform specific functions.
-   The following functions are only available on HTML5 builds, the html5.* Lua namespace will not be available on other platforms.
+  [icon:html5] The following functions are only available on HTML5 builds, the `html5.*` Lua namespace will not be available on other platforms.
 --]]
 
 ---@meta
@@ -13,6 +13,7 @@
 ---@diagnostic disable: missing-return
 ---@diagnostic disable: duplicate-doc-param
 ---@diagnostic disable: duplicate-set-field
+---@diagnostic disable: args-after-dots
 
 ---@class defold_api.html5
 html5 = {}

@@ -1,29 +1,29 @@
 --[[
   Generated with github.com/astrochili/defold-annotations
-  Defold 1.9.4
+  Defold 1.10.2
 
   Vector math API documentation
 
   Functions for mathematical operations on vectors, matrices and quaternions.
-  The vector types (vmath.vector3 and vmath.vector4) supports addition and subtraction
+  - The vector types (`vmath.vector3` and `vmath.vector4`) supports addition and subtraction
     with vectors of the same type. Vectors can be negated and multiplied (scaled) or divided by numbers.
-  The quaternion type (vmath.quat) supports multiplication with other quaternions.
-  The matrix type (vmath.matrix4) can be multiplied with numbers, other matrices
-    and vmath.vector4 values.
-  All types performs equality comparison by each component value.
+  - The quaternion type (`vmath.quat`) supports multiplication with other quaternions.
+  - The matrix type (`vmath.matrix4`) can be multiplied with numbers, other matrices
+    and `vmath.vector4` values.
+  - All types performs equality comparison by each component value.
   The following components are available for the various types:
   vector3
-  x, y and z. Example: v.y
+  : `x`, `y` and `z`. Example: `v.y`
   vector4
-  x, y, z, and w. Example: v.w
+  : `x`, `y`, `z`, and `w`. Example: `v.w`
   quaternion
-  x, y, z, and w. Example: q.w
+  : `x`, `y`, `z`, and `w`. Example: `q.w`
   matrix4
-  m00 to m33 where the first number is the row (starting from 0) and the second
-  number is the column. Columns can be accessed with c0 to c3, returning a vector4.
-  Example: m.m21 which is equal to m.c1.z
+  : `m00` to `m33` where the first number is the row (starting from 0) and the second
+  number is the column. Columns can be accessed with `c0` to `c3`, returning a `vector4`.
+  Example: `m.m21` which is equal to `m.c1.z`
   vector
-  indexed by number 1 to the vector length. Example: v[3]
+  : indexed by number 1 to the vector length. Example: `v[3]`
 --]]
 
 ---@meta
@@ -31,6 +31,7 @@
 ---@diagnostic disable: missing-return
 ---@diagnostic disable: duplicate-doc-param
 ---@diagnostic disable: duplicate-set-field
+---@diagnostic disable: args-after-dots
 
 ---@class defold_api.vmath
 vmath = {}
@@ -38,10 +39,11 @@ vmath = {}
 ---Clamp input value to be in range of [min, max]. In case if input value has vector3|vector4 type
 ---return new vector3|vector4 with clamped value at every vector's element.
 ---Min/max arguments can be vector3|vector4. In that case clamp excuted per every vector's element
----@param value number|vector3|vector4 Input value or vector of values
----@param min number|vector3|vector4 Min value(s) border
----@param max number|vector3|vector4 Max value(s) border
----@return number|vector3|vector4 clamped_value Clamped value or vector
+---@generic T: number|vector3|vector4
+---@param value T Input value or vector of values
+---@param min T Min value(s) border
+---@param max T Max value(s) border
+---@return T clamped_value Clamped value or vector
 function vmath.clamp(value, min, max) end
 
 ---Calculates the conjugate of a quaternion. The result is a
@@ -69,10 +71,20 @@ function vmath.cross(v1, v2) end
 ---If the dot product is positive then the angle between the vectors is below 90 degrees.
 ---If the dot product is zero the vectors are perpendicular (at right-angles to each other).
 ---If the dot product is negative then the angle between the vectors is more than 90 degrees.
----@param v1 vector3|vector4 first vector
----@param v2 vector3|vector4 second vector
+---@generic T: vector3|vector4
+---@param v1 T first vector
+---@param v2 T second vector
 ---@return number n dot product
 function vmath.dot(v1, v2) end
+
+---Converts euler angles (x, y, z) in degrees into a quaternion
+---The error is guaranteed to be less than 0.001.
+---If the first argument is vector3, its values are used as x, y, z angles.
+---@param x number|vector3 rotation around x-axis in degrees or vector3 with euler angles in degrees
+---@param y number|nil rotation around y-axis in degrees
+---@param z number|nil rotation around z-axis in degrees
+---@return quaternion q quaternion describing an equivalent rotation (231 (YZX) rotation sequence)
+function vmath.euler_to_quat(x, y, z) end
 
 ---The resulting matrix is the inverse of the supplied matrix.
 --- For ortho-normal matrices, e.g. regular object transformation,
@@ -96,15 +108,6 @@ function vmath.length(v) end
 ---@return number n squared length
 function vmath.length_sqr(v) end
 
----Linearly interpolate between two values. Lerp is useful
----to describe transitions from one value to another over time.
---- The function does not clamp t between 0 and 1.
----@param t number interpolation parameter, 0-1
----@param n1 number number to lerp from
----@param n2 number number to lerp to
----@return number n the lerped number
-function vmath.lerp(t, n1, n2) end
-
 ---Linearly interpolate between two quaternions. Linear
 ---interpolation of rotations are only useful for small
 ---rotations. For interpolations of arbitrary rotations,
@@ -121,11 +124,21 @@ function vmath.lerp(t, q1, q2) end
 ---the positions in a straight line. Lerp is useful to describe
 ---transitions from one place to another over time.
 --- The function does not clamp t between 0 and 1.
+---@generic T: vector3|vector4
 ---@param t number interpolation parameter, 0-1
----@param v1 vector3|vector4 vector to lerp from
----@param v2 vector3|vector4 vector to lerp to
----@return vector3|vector4 v the lerped vector
+---@param v1 T vector to lerp from
+---@param v2 T vector to lerp to
+---@return T v the lerped vector
 function vmath.lerp(t, v1, v2) end
+
+---Linearly interpolate between two values. Lerp is useful
+---to describe transitions from one value to another over time.
+--- The function does not clamp t between 0 and 1.
+---@param t number interpolation parameter, 0-1
+---@param n1 number number to lerp from
+---@param n2 number number to lerp to
+---@return number n the lerped number
+function vmath.lerp(t, n1, n2) end
 
 ---Creates a new matrix with all components set to the
 ---corresponding values from the supplied matrix. I.e.
@@ -147,7 +160,7 @@ function vmath.matrix4_axis_angle(v, angle) end
 
 ---Creates a new matrix constructed from separate
 ---translation vector, roation quaternion and scale vector
----@param translation vector3|vecto4 translation
+---@param translation vector3|vector4 translation
 ---@param rotation quaternion rotation
 ---@param scale vector3 scale
 ---@return matrix4 matrix new matrix4
@@ -218,13 +231,6 @@ function vmath.matrix4_rotation_y(angle) end
 ---@return matrix4 m matrix from rotation around z-axis
 function vmath.matrix4_rotation_z(angle) end
 
----Creates a new matrix4 from three scale components
----@param scale_x number scale along X axis
----@param scale_y number sclae along Y axis
----@param scale_z number scale along Z asis
----@return matrix4 matrix new matrix4
-function vmath.matrix4_scale(scale_x, scale_y, scale_z) end
-
 ---Creates a new matrix constructed from scale vector
 ---@param scale vector3 scale
 ---@return matrix4 matrix new matrix4
@@ -235,6 +241,13 @@ function vmath.matrix4_scale(scale) end
 ---@return matrix4 matrix new matrix4
 function vmath.matrix4_scale(scale) end
 
+---Creates a new matrix4 from three scale components
+---@param scale_x number scale along X axis
+---@param scale_y number sclae along Y axis
+---@param scale_z number scale along Z asis
+---@return matrix4 matrix new matrix4
+function vmath.matrix4_scale(scale_x, scale_y, scale_z) end
+
 ---The resulting matrix describes a translation of a point
 ---in euclidean space.
 ---@param position vector3|vector4 position vector to create matrix from
@@ -244,17 +257,19 @@ function vmath.matrix4_translation(position) end
 ---Performs an element wise multiplication between two vectors of the same type
 ---The returned value is a vector defined as (e.g. for a vector3):
 ---v = vmath.mul_per_elem(a, b) = vmath.vector3(a.x * b.x, a.y * b.y, a.z * b.z)
----@param v1 vector3|vector4 first vector
----@param v2 vector3|vector4 second vector
----@return vector3|vector4 v multiplied vector
+---@generic T: vector3|vector4
+---@param v1 T first vector
+---@param v2 T second vector
+---@return T v multiplied vector
 function vmath.mul_per_elem(v1, v2) end
 
 ---Normalizes a vector, i.e. returns a new vector with the same
 ---direction as the input vector, but with length 1.
 --- The length of the vector must be above 0, otherwise a
 ---division-by-zero will occur.
----@param v1 vector3|vector4|quaternion vector to normalize
----@return vector3|vector4|quaternion v new normalized vector
+---@generic T: vector3|vector4|quaternion
+---@param v1 T vector to normalize
+---@return T v new normalized vector
 function vmath.normalize(v1) end
 
 ---The resulting matrix is the inverse of the supplied matrix.
@@ -347,6 +362,16 @@ function vmath.quat_rotation_y(angle) end
 ---@return quaternion q quaternion representing the rotation around the z-axis
 function vmath.quat_rotation_z(angle) end
 
+---Converts a quaternion into euler angles (r0, r1, r2), based on YZX rotation order.
+---To handle gimbal lock (singularity at r1 ~ +/- 90 degrees), the cut off is at r0 = +/- 88.85 degrees, which snaps to +/- 90.
+---The provided quaternion is expected to be normalized.
+---The error is guaranteed to be less than +/- 0.02 degrees
+---@param q quaternion source quaternion
+---@return number x euler angle x in degrees
+---@return number y euler angle y in degrees
+---@return number z euler angle z in degrees
+function vmath.quat_to_euler(q) end
+
 ---Returns a new vector from the supplied vector that is
 ---rotated by the rotation described by the supplied
 ---quaternion.
@@ -354,20 +379,6 @@ function vmath.quat_rotation_z(angle) end
 ---@param v1 vector3 vector to rotate
 ---@return vector3 v the rotated vector
 function vmath.rotate(q, v1) end
-
----Spherically interpolates between two vectors. The difference to
----lerp is that slerp treats the vectors as directions instead of
----positions in space.
----The direction of the returned vector is interpolated by the angle
----and the magnitude is interpolated between the magnitudes of the
----from and to vectors.
---- Slerp is computationally more expensive than lerp.
----The function does not clamp t between 0 and 1.
----@param t number interpolation parameter, 0-1
----@param v1 vector3|vector4 vector to slerp from
----@param v2 vector3|vector4 vector to slerp to
----@return vector3|vector4 v the slerped vector
-function vmath.slerp(t, v1, v2) end
 
 ---Slerp travels the torque-minimal path maintaining constant
 ---velocity, which means it travels along the straightest path along
@@ -382,24 +393,29 @@ function vmath.slerp(t, v1, v2) end
 ---@return quaternion q the slerped quaternion
 function vmath.slerp(t, q1, q2) end
 
+---Spherically interpolates between two vectors. The difference to
+---lerp is that slerp treats the vectors as directions instead of
+---positions in space.
+---The direction of the returned vector is interpolated by the angle
+---and the magnitude is interpolated between the magnitudes of the
+---from and to vectors.
+--- Slerp is computationally more expensive than lerp.
+---The function does not clamp t between 0 and 1.
+---@generic T: vector3|vector4
+---@param t number interpolation parameter, 0-1
+---@param v1 T vector to slerp from
+---@param v2 T vector to slerp to
+---@return T v the slerped vector
+function vmath.slerp(t, v1, v2) end
+
 ---Creates a vector of arbitrary size. The vector is initialized
 ---with numeric values from a table.
 --- The table values are converted to floating point
 ---values. If a value cannot be converted, a 0 is stored in that
 ---value position in the vector.
----@param t table table of numbers
----@return vector4|vector3 v new vector
+---@param t number[] table of numbers
+---@return vector v new vector
 function vmath.vector(t) end
-
----Creates a new vector with all components set to the
----supplied scalar value.
----@param n number scalar value to splat
----@return vector3 v new vector
-function vmath.vector3(n) end
-
----Creates a new zero vector with all components set to 0.
----@return vector3 v new zero vector
-function vmath.vector3() end
 
 ---Creates a new vector with the components set to the
 ---supplied values.
@@ -415,6 +431,25 @@ function vmath.vector3(x, y, z) end
 ---@param v1 vector3 existing vector
 ---@return vector3 v new vector
 function vmath.vector3(v1) end
+
+---Creates a new zero vector with all components set to 0.
+---@return vector3 v new zero vector
+function vmath.vector3() end
+
+---Creates a new vector with all components set to the
+---supplied scalar value.
+---@param n number scalar value to splat
+---@return vector3 v new vector
+function vmath.vector3(n) end
+
+---Creates a new vector with the components set to the
+---supplied values.
+---@param x number x coordinate
+---@param y number y coordinate
+---@param z number z coordinate
+---@param w number w coordinate
+---@return vector4 v new vector
+function vmath.vector4(x, y, z, w) end
 
 ---Creates a new vector with all components set to the
 ---corresponding values from the supplied vector. I.e.
@@ -432,14 +467,5 @@ function vmath.vector4() end
 ---@param n number scalar value to splat
 ---@return vector4 v new vector
 function vmath.vector4(n) end
-
----Creates a new vector with the components set to the
----supplied values.
----@param x number x coordinate
----@param y number y coordinate
----@param z number z coordinate
----@param w number w coordinate
----@return vector4 v new vector
-function vmath.vector4(x, y, z, w) end
 
 return vmath

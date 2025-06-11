@@ -1,8 +1,12 @@
 --[[
   Generated with github.com/astrochili/defold-annotations
-  Defold 1.9.4
+  Defold 1.10.2
 
   GUI API documentation
+
+  GUI core hooks, functions, messages, properties and constants for
+  creation and manipulation of GUI nodes. The "gui" namespace is
+  accessible only from gui scripts.
 --]]
 
 ---@meta
@@ -10,6 +14,7 @@
 ---@diagnostic disable: missing-return
 ---@diagnostic disable: duplicate-doc-param
 ---@diagnostic disable: duplicate-set-field
+---@diagnostic disable: args-after-dots
 
 ---@class defold_api.gui
 gui = {}
@@ -304,6 +309,21 @@ gui.SIZE_MODE_AUTO = nil
 ---The size of the node is determined by the size set in the editor, the constructor or by gui.set_size()
 gui.SIZE_MODE_MANUAL = nil
 
+---box type
+gui.TYPE_BOX = nil
+
+---custom type
+gui.TYPE_CUSTOM = nil
+
+---particlefx type
+gui.TYPE_PARTICLEFX = nil
+
+---pie type
+gui.TYPE_PIE = nil
+
+---text type
+gui.TYPE_TEXT = nil
+
 ---This starts an animation of a node property according to the specified parameters.
 ---If the node property is already being animated, that animation will be canceled and
 ---replaced by the new one. Note however that several different node properties
@@ -353,14 +373,14 @@ gui.SIZE_MODE_MANUAL = nil
 ---gui.PROP_SLICE9
 ---
 ---@param to number|vector3|vector4|quaternion target property value
----@param easing constant|vector4|vector3 easing to use during animation.
+---@param easing constant|vector easing to use during animation.
 ---     Either specify one of the gui.EASING_* constants or provide a
 ---     vector with a custom curve. See the animation guide for more information.
 ---@param duration number duration of the animation in seconds.
----@param delay number|nil delay before the animation starts in seconds.
----@param complete_function fun(self, node)|nil function to call when the
+---@param delay number delay before the animation starts in seconds.
+---@param complete_function fun(self, node) function to call when the
 ---     animation has completed
----@param playback constant|nil playback mode
+---@param playback constant playback mode
 ---
 ---gui.PLAYBACK_ONCE_FORWARD
 ---gui.PLAYBACK_ONCE_BACKWARD
@@ -407,7 +427,7 @@ function gui.clone(node) end
 ---Make a clone instance of a node and all its children.
 ---Use gui.clone to clone a node excluding its children.
 ---@param node node root node to clone
----@return table<string|hash, node> clones a table mapping node ids to the corresponding cloned nodes
+---@return table<hash, node> clones a table mapping node ids to the corresponding cloned nodes
 function gui.clone_tree(node) end
 
 ---Deletes the specified node. Any child nodes of the specified node will be
@@ -441,7 +461,7 @@ function gui.delete_texture(texture) end
 ---You can also use this function to get material constants.
 ---@param node node node to get the property for
 ---@param property string|hash|constant the property to retrieve
----@param options table|nil optional options table (only applicable for material constants)
+---@param options table optional options table (only applicable for material constants)
 ---- index integer index into array property (1 based)
 function gui.get(node, property, options) end
 
@@ -724,8 +744,21 @@ function gui.get_tracking(node) end
 
 ---Get a node and all its children as a Lua table.
 ---@param node node root node to get node tree from
----@return table<string|hash, node> clones a table mapping node ids to the corresponding nodes
+---@return table<hash, node> clones a table mapping node ids to the corresponding nodes
 function gui.get_tree(node) end
+
+---gets the node type
+---@param node node node from which to get the type
+---@return constant type type
+---
+---gui.TYPE_BOX
+---gui.TYPE_TEXT
+---gui.TYPE_PIE
+---gui.TYPE_PARTICLEFX
+---gui.TYPE_CUSTOM
+---
+---@return integer|nil subtype id of the custom type
+function gui.get_type(node) end
 
 ---Returns true if a node is visible and false if it's not.
 ---Invisible nodes are not rendered.
@@ -763,7 +796,7 @@ function gui.hide_keyboard() end
 ---Returns true if a node is enabled and false if it's not.
 ---Disabled nodes are not rendered and animations acting on them are not evaluated.
 ---@param node node node to query
----@param recursive boolean|nil check hierarchy recursively
+---@param recursive boolean check hierarchy recursively
 ---@return boolean enabled whether the node is enabled or not
 function gui.is_enabled(node, recursive) end
 
@@ -834,7 +867,7 @@ function gui.pick_node(node, x, y) end
 ---Use this function to set one-frame still images on the node.
 ---@param node node node to set animation for
 ---@param animation string|hash animation id
----@param complete_function fun(self, node)|nil optional function to call when the animation has completed
+---@param complete_function fun(self, node) optional function to call when the animation has completed
 ---
 ---self
 ---
@@ -845,7 +878,7 @@ function gui.pick_node(node, x, y) end
 ---node The node that is animated.
 ---
 ---
----@param play_properties { offset:number|nil, playback_rate:number|nil }|nil optional table with properties
+---@param play_properties { offset:number|nil, playback_rate:number|nil } optional table with properties
 ---
 ---offset
 ---number The normalized initial value of the animation cursor when the animation starts playing
@@ -856,7 +889,7 @@ function gui.play_flipbook(node, animation, complete_function, play_properties) 
 
 ---Plays the paricle fx for a gui node
 ---@param node node node to play particle fx for
----@param emitter_state_function fun(self, node, emitter, state)|nil optional callback function that will be called when an emitter attached to this particlefx changes state.
+---@param emitter_state_function fun(self, node, emitter, state) optional callback function that will be called when an emitter attached to this particlefx changes state.
 ---
 ---self
 ---object The current object
@@ -920,11 +953,12 @@ function gui.screen_to_local(node, screen_position) end
 ---the .material file, you can use gui.set to set the value of that constant by calling gui.set(node, "tint", vmath.vec4(1,0,0,1)), or gui.set(node, "matrix", vmath.matrix4())
 ---if the constant is a matrix. Arrays are also supported by gui.set - to set an array constant, you need to pass in an options table with the 'index' key set.
 ---If the material has a constant array called 'tint_array' specified in the material, you can use gui.set(node, "tint_array", vmath.vec4(1,0,0,1), { index = 4}) to set the fourth array element to a different value.
----@param node node node to set the property for
+---@param node node|url node to set the property for, or msg.url() to the gui itself
 ---@param property string|hash|constant the property to set
 ---@param value number|vector4|vector3|quaternion the property to set
----@param options table|nil optional options table (only applicable for material constants)
+---@param options table optional options table (only applicable for material constants)
 ---- index integer index into array property (1 based)
+---- key hash name of internal property
 function gui.set(node, property, value, options) end
 
 ---Sets the adjust mode on a node.
@@ -1087,8 +1121,8 @@ function gui.set_outline(node, color) end
 
 ---Sets the parent node of the specified node.
 ---@param node node node for which to set its parent
----@param parent node|nil parent node to set, pass nil to remove parent
----@param keep_scene_transform boolean|nil optional flag to make the scene position being perserved
+---@param parent node parent node to set, pass nil to remove parent
+---@param keep_scene_transform boolean optional flag to make the scene position being perserved
 function gui.set_parent(node, parent, keep_scene_transform) end
 
 ---Set the paricle fx for a gui node
@@ -1254,7 +1288,7 @@ function gui.show_keyboard(type, autoclose) end
 
 ---Stops the particle fx for a gui node
 ---@param node node node to stop particle fx for
----@param options { clear:boolean|nil }|nil options when stopping the particle fx. Supported options:
+---@param options { clear:boolean|nil } options when stopping the particle fx. Supported options:
 ---
 ---boolean clear: instantly clear spawned particles
 ---

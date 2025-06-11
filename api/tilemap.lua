@@ -1,6 +1,6 @@
 --[[
   Generated with github.com/astrochili/defold-annotations
-  Defold 1.9.4
+  Defold 1.10.2
 
   Tilemap API documentation
 
@@ -12,6 +12,7 @@
 ---@diagnostic disable: missing-return
 ---@diagnostic disable: duplicate-doc-param
 ---@diagnostic disable: duplicate-set-field
+---@diagnostic disable: args-after-dots
 
 ---@class defold_api.tilemap
 tilemap = {}
@@ -100,7 +101,7 @@ function tilemap.get_tiles(url, layer) end
 ---@param x number x-coordinate of the tile
 ---@param y number y-coordinate of the tile
 ---@param tile number index of new tile to set. 0 resets the cell
----@param transform_bitmask number|nil optional flip and/or rotation should be applied to the tile
+---@param transform_bitmask number optional flip and/or rotation should be applied to the tile
 function tilemap.set_tile(url, layer, x, y, tile, transform_bitmask) end
 
 ---Sets the visibility of the tilemap layer

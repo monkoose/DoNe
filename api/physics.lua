@@ -1,8 +1,12 @@
 --[[
   Generated with github.com/astrochili/defold-annotations
-  Defold 1.9.4
+  Defold 1.10.2
 
   Collision object physics API documentation
+
+  Functions and messages for collision object physics interaction
+  with other objects (collisions and ray-casting) and control of
+  physical behaviors.
 --]]
 
 ---@meta
@@ -10,6 +14,7 @@
 ---@diagnostic disable: missing-return
 ---@diagnostic disable: duplicate-doc-param
 ---@diagnostic disable: duplicate-set-field
+---@diagnostic disable: args-after-dots
 
 ---@class defold_api.physics
 physics = {}
@@ -52,7 +57,7 @@ physics.SHAPE_TYPE_SPHERE = nil
 ---@param position_a vector3 local position where to attach the joint on the first collision object
 ---@param collisionobject_b string|hash|url second collision object
 ---@param position_b vector3 local position where to attach the joint on the second collision object
----@param properties table|nil optional joint specific properties table
+---@param properties table optional joint specific properties table
 ---See each joint type for possible properties field. The one field that is accepted for all joint types is:
 ---- boolean collide_connected: Set this flag to true if the attached bodies should collide.
 function physics.create_joint(joint_type, collisionobject_a, joint_id, position_a, collisionobject_b, position_b, properties) end
@@ -165,10 +170,11 @@ function physics.get_shape(url, shape) end
 ---do not intersect with ray casts.
 ---Which collision objects to hit is filtered by their collision groups and can be configured
 ---through groups.
+---NOTE: Ray casts will ignore collision objects that contain the starting point of the ray. This is a limitation in Box2D.
 ---@param from vector3 the world position of the start of the ray
 ---@param to vector3 the world position of the end of the ray
 ---@param groups table a lua table containing the hashed groups for which to test collisions against
----@param options { all:boolean|nil }|nil a lua table containing options for the raycast.
+---@param options { all:boolean|nil } a lua table containing options for the raycast.
 ---
 ---all
 ---boolean Set to true to return all ray cast hits. If false, it will only return the closest hit.
@@ -184,11 +190,33 @@ function physics.raycast(from, to, groups, options) end
 ---The actual ray cast will be performed during the physics-update.
 ---If an object is hit, the result will be reported via a ray_cast_response message.
 ---If there is no object hit, the result will be reported via a ray_cast_missed message.
+---NOTE: Ray casts will ignore collision objects that contain the starting point of the ray. This is a limitation in Box2D.
 ---@param from vector3 the world position of the start of the ray
 ---@param to vector3 the world position of the end of the ray
 ---@param groups table a lua table containing the hashed groups for which to test collisions against
----@param request_id number|nil a number in range [0,255]. It will be sent back in the response for identification, 0 by default
+---@param request_id number a number in range [0,255]. It will be sent back in the response for identification, 0 by default
 function physics.raycast_async(from, to, groups, request_id) end
+
+---sets a physics world event listener. If a function is set, physics messages will no longer be sent to on_message.
+---@param callback fun(self, events)|nil A callback that receives an information about all the physics interactions in this physics world.
+---
+---self
+---object The calling script
+---event
+---constant The type of event. Can be one of these messages:
+---
+---
+---contact_point_event
+---collision_event
+---trigger_event
+---ray_cast_response
+---ray_cast_missed
+---
+---
+---data
+---table The callback value data is a table that contains event-related data. See the documentation for details on the messages.
+---
+function physics.set_event_listener(callback) end
 
 ---Set the gravity in runtime. The gravity change is not global, it will only affect
 ---the collection that the function is called from.
@@ -220,27 +248,6 @@ function physics.set_hflip(url, flip) end
 ---@param properties table joint specific properties table
 ---Note: The collide_connected field cannot be updated/changed after a connection has been made.
 function physics.set_joint_properties(collisionobject, joint_id, properties) end
-
----sets a physics world event listener. If a function is set, physics messages will no longer be sent.
----@param callback fun(self, event, data)|nil A callback that receives information about all the physics interactions in this physics world.
----
----self
----object The calling script
----event
----constant The type of event. Can be one of these messages:
----
----
----contact_point_event
----collision_event
----trigger_event
----ray_cast_response
----ray_cast_missed
----
----
----data
----table The callback value data is a table that contains event-related data. See the documentation for details on the messages.
----
-function physics.set_listener(callback) end
 
 ---Sets or clears the masking of a group (maskbit) in a collision object.
 ---@param url string|hash|url the collision object to change the mask of.

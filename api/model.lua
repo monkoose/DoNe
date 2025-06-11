@@ -1,8 +1,10 @@
 --[[
   Generated with github.com/astrochili/defold-annotations
-  Defold 1.9.4
+  Defold 1.10.2
 
   Model API documentation
+
+  Functions and messages for interacting with model components.
 --]]
 
 ---@meta
@@ -10,6 +12,7 @@
 ---@diagnostic disable: missing-return
 ---@diagnostic disable: duplicate-doc-param
 ---@diagnostic disable: duplicate-set-field
+---@diagnostic disable: args-after-dots
 
 ---@class defold_api.model
 model = {}
@@ -17,6 +20,12 @@ model = {}
 ---Cancels all animation on a model component.
 ---@param url string|hash|url the model for which to cancel the animation
 function model.cancel(url) end
+
+---Get AABB of the whole model in local coordinate space.
+---AABB information return as a table with min and max fields, where min and max has type vmath.vector3.
+---@param url string|hash|url the model
+---@return table aabb A table containing AABB of the model. If model has no meshes - return vmath.vector3(0,0,0) for min and max fields.
+function model.get_aabb(url) end
 
 ---Gets the id of the game object that corresponds to a model skeleton bone.
 ---The returned game object can be used for parenting and transform queries.
@@ -26,6 +35,12 @@ function model.cancel(url) end
 ---@param bone_id string|hash id of the corresponding bone
 ---@return hash id id of the game object
 function model.get_go(url, bone_id) end
+
+---Get AABB of all meshes.
+---AABB information return as a table with min and max fields, where min and max has type vmath.vector3.
+---@param url string|hash|url the model
+---@return table aabb A table containing info about all AABB in the format 
+function model.get_mesh_aabb(url) end
 
 ---Get the enabled state of a mesh
 ---@param url string|hash|url the model
@@ -55,7 +70,7 @@ function model.get_mesh_enabled(url, mesh_id) end
 ---go.PLAYBACK_LOOP_BACKWARD
 ---go.PLAYBACK_LOOP_PINGPONG
 ---
----@param play_properties { blend_duration:number|nil, offset:number|nil, playback_rate:number|nil}|nil optional table with properties
+---@param play_properties { blend_duration:number|nil, offset:number|nil, playback_rate:number|nil} optional table with properties
 ---Play properties table:
 ---
 ---blend_duration
@@ -65,7 +80,7 @@ function model.get_mesh_enabled(url, mesh_id) end
 ---playback_rate
 ---number The rate with which the animation will be played. Must be positive.
 ---
----@param complete_function fun(self, message_id, message, sender)|nil function to call when the animation has completed.
+---@param complete_function fun(self, message_id, message, sender) function to call when the animation has completed.
 ---
 ---self
 ---object The current object.

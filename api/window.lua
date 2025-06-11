@@ -1,6 +1,6 @@
 --[[
   Generated with github.com/astrochili/defold-annotations
-  Defold 1.9.4
+  Defold 1.10.2
 
   Window API documentation
 
@@ -13,6 +13,7 @@
 ---@diagnostic disable: missing-return
 ---@diagnostic disable: duplicate-doc-param
 ---@diagnostic disable: duplicate-set-field
+---@diagnostic disable: args-after-dots
 
 ---@class defold_api.window
 window = {}
@@ -57,6 +58,10 @@ window.WINDOW_EVENT_RESIZED = nil
 ---window.DIMMING_OFF
 ---
 function window.get_dim_mode() end
+
+---This returns the content scale of the current display.
+---@return number scale The display scale
+function window.get_display_scale() end
 
 ---This returns the current lock state of the mouse cursor
 ---@return boolean state The lock state
@@ -107,5 +112,19 @@ function window.set_listener(callback) end
 ---mouse position updates will still be sent to the scripts as usual.
 ---@param flag boolean The lock state for the mouse cursor
 function window.set_mouse_lock(flag) end
+
+---Sets the window position.
+---@param x number Horizontal position of window
+---@param y number Vertical position of window
+function window.set_position(x, y) end
+
+---Sets the window size. Works on desktop platforms only.
+---@param width number Width of window
+---@param height number Height of window
+function window.set_size(width, height) end
+
+---Sets the window title. Works on desktop platforms.
+---@param title string The title, encoded as UTF-8
+function window.set_title(title) end
 
 return window
