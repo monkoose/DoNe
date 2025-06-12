@@ -38,7 +38,7 @@ function bit.arshift(x, n) end
 
 ---Returns the bitwise and of all of its arguments. Note that more than two arguments are allowed.
 ---@param x1 number number
----@param ... number number(s)
+---@param ...? number number(s)
 ---@return number y bitwise and of the provided arguments
 function bit.band(x1, ...) end
 
@@ -49,7 +49,7 @@ function bit.bnot(x) end
 
 ---Returns the bitwise or of all of its arguments. Note that more than two arguments are allowed.
 ---@param x1 number number
----@param ... number number(s)
+---@param ...? number number(s)
 ---@return number y bitwise or of the provided arguments
 function bit.bor(x1, ...) end
 
@@ -60,7 +60,7 @@ function bit.bswap(x) end
 
 ---Returns the bitwise xor of all of its arguments. Note that more than two arguments are allowed.
 ---@param x1 number number
----@param ... number number(s)
+---@param ...? number number(s)
 ---@return number y bitwise xor of the provided arguments
 function bit.bxor(x1, ...) end
 

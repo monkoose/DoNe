@@ -57,9 +57,9 @@ physics.SHAPE_TYPE_SPHERE = nil
 ---@param position_a vector3 local position where to attach the joint on the first collision object
 ---@param collisionobject_b string|hash|url second collision object
 ---@param position_b vector3 local position where to attach the joint on the second collision object
----@param properties table optional joint specific properties table
----See each joint type for possible properties field. The one field that is accepted for all joint types is:
----- boolean collide_connected: Set this flag to true if the attached bodies should collide.
+---@param properties? table optional joint specific properties table
+---  See each joint type for possible properties field. The one field that is accepted for all joint types is:
+---  - boolean collide_connected: Set this flag to true if the attached bodies should collide.
 function physics.create_joint(joint_type, collisionobject_a, joint_id, position_a, collisionobject_b, position_b, properties) end
 
 ---Destroy an already physics joint. The joint has to be created before a
@@ -78,11 +78,11 @@ function physics.get_gravity() end
 ---Returns the group name of a collision object as a hash.
 ---@param url string|hash|url the collision object to return the group of.
 ---@return hash group hash value of the group.
----local function check_is_enemy()
----    local group = physics.get_group("#collisionobject")
----    return group == hash("enemy")
----end
----
+---  local function check_is_enemy()
+---      local group = physics.get_group("#collisionobject")
+---      return group == hash("enemy")
+---  end
+---  
 function physics.get_group(url) end
 
 ---Get a table for properties for a connected joint. The joint has to be created before
@@ -91,9 +91,9 @@ function physics.get_group(url) end
 ---@param collisionobject string|hash|url collision object where the joint exist
 ---@param joint_id string|hash id of the joint
 ---@return { collide_connected:boolean|nil } properties properties table. See the joint types for what fields are available, the only field available for all types is:
----
----boolean collide_connected: Set this flag to true if the attached bodies should collide.
----
+---  
+---  boolean collide_connected: Set this flag to true if the attached bodies should collide.
+---  
 function physics.get_joint_properties(collisionobject, joint_id) end
 
 ---Get the reaction force for a joint. The joint has to be created before
@@ -117,52 +117,52 @@ function physics.get_joint_reaction_torque(collisionobject, joint_id) end
 ---@param url string|hash|url the collision object to check the mask of.
 ---@param group string the name of the group to check for.
 ---@return boolean maskbit boolean value of the maskbit. 'true' if present, 'false' otherwise.
----local function is_invincible()
----    -- check if the collisionobject would collide with the "bullet" group
----    local invincible = physics.get_maskbit("#collisionobject", "bullet")
----    return invincible
----end
----
+---  local function is_invincible()
+---      -- check if the collisionobject would collide with the "bullet" group
+---      local invincible = physics.get_maskbit("#collisionobject", "bullet")
+---      return invincible
+---  end
+---  
 function physics.get_maskbit(url, group) end
 
 ---Gets collision shape data from a collision object
 ---@param url string|hash|url the collision object.
 ---@param shape string|hash the name of the shape to get data for.
 ---@return { type:number|nil, diameter:number|nil, dimensions:vector3|nil, height:number|nil } table A table containing meta data about the physics shape
----
----type
----number The shape type. Supported values:
----
----
----physics.SHAPE_TYPE_SPHERE
----physics.SHAPE_TYPE_BOX
----physics.SHAPE_TYPE_CAPSULE Only supported for 3D physics
----physics.SHAPE_TYPE_HULL
----
----The returned table contains different fields depending on which type the shape is.
----If the shape is a sphere:
----
----diameter
----number the diameter of the sphere shape
----
----If the shape is a box:
----
----dimensions
----vector3 a vmath.vector3 of the box dimensions
----
----If the shape is a capsule:
----
----diameter
----number the diameter of the capsule poles
----height
----number the height of the capsule
----
----local function get_shape_meta()
----    local sphere = physics.get_shape("#collisionobject", "my_sphere_shape")
----    -- returns a table with sphere.diameter
----    return sphere
----end
----
+---  
+---  type
+---  number The shape type. Supported values:
+---  
+---  
+---  physics.SHAPE_TYPE_SPHERE
+---  physics.SHAPE_TYPE_BOX
+---  physics.SHAPE_TYPE_CAPSULE Only supported for 3D physics
+---  physics.SHAPE_TYPE_HULL
+---  
+---  The returned table contains different fields depending on which type the shape is.
+---  If the shape is a sphere:
+---  
+---  diameter
+---  number the diameter of the sphere shape
+---  
+---  If the shape is a box:
+---  
+---  dimensions
+---  vector3 a vmath.vector3 of the box dimensions
+---  
+---  If the shape is a capsule:
+---  
+---  diameter
+---  number the diameter of the capsule poles
+---  height
+---  number the height of the capsule
+---  
+---  local function get_shape_meta()
+---      local sphere = physics.get_shape("#collisionobject", "my_sphere_shape")
+---      -- returns a table with sphere.diameter
+---      return sphere
+---  end
+---  
 function physics.get_shape(url, shape) end
 
 ---Ray casts are used to test for intersections against collision objects in the physics world.
@@ -174,11 +174,11 @@ function physics.get_shape(url, shape) end
 ---@param from vector3 the world position of the start of the ray
 ---@param to vector3 the world position of the end of the ray
 ---@param groups table a lua table containing the hashed groups for which to test collisions against
----@param options { all:boolean|nil } a lua table containing options for the raycast.
----
----all
----boolean Set to true to return all ray cast hits. If false, it will only return the closest hit.
----
+---@param options? table a lua table containing options for the raycast.
+---  
+---  all
+---  boolean Set to true to return all ray cast hits. If false, it will only return the closest hit.
+---  
 ---@return physics.raycast_response[]|physics.raycast_response|nil result It returns a list. If missed it returns nil. See ray_cast_response for details on the returned values.
 function physics.raycast(from, to, groups, options) end
 
@@ -194,28 +194,28 @@ function physics.raycast(from, to, groups, options) end
 ---@param from vector3 the world position of the start of the ray
 ---@param to vector3 the world position of the end of the ray
 ---@param groups table a lua table containing the hashed groups for which to test collisions against
----@param request_id number a number in range [0,255]. It will be sent back in the response for identification, 0 by default
+---@param request_id? number a number in range [0,255]. It will be sent back in the response for identification, 0 by default
 function physics.raycast_async(from, to, groups, request_id) end
 
 ---sets a physics world event listener. If a function is set, physics messages will no longer be sent to on_message.
 ---@param callback fun(self, events)|nil A callback that receives an information about all the physics interactions in this physics world.
----
----self
----object The calling script
----event
----constant The type of event. Can be one of these messages:
----
----
----contact_point_event
----collision_event
----trigger_event
----ray_cast_response
----ray_cast_missed
----
----
----data
----table The callback value data is a table that contains event-related data. See the documentation for details on the messages.
----
+---  
+---  self
+---  object The calling script
+---  event
+---  constant The type of event. Can be one of these messages:
+---  
+---  
+---  contact_point_event
+---  collision_event
+---  trigger_event
+---  ray_cast_response
+---  ray_cast_missed
+---  
+---  
+---  data
+---  table The callback value data is a table that contains event-related data. See the documentation for details on the messages.
+---  
 function physics.set_event_listener(callback) end
 
 ---Set the gravity in runtime. The gravity change is not global, it will only affect
@@ -229,10 +229,10 @@ function physics.set_gravity(gravity) end
 ---a collision object in the editor.
 ---@param url string|hash|url the collision object affected.
 ---@param group string the new group name to be assigned.
----local function change_collision_group()
----     physics.set_group("#collisionobject", "enemy")
----end
----
+---  local function change_collision_group()
+---       physics.set_group("#collisionobject", "enemy")
+---  end
+---  
 function physics.set_group(url, group) end
 
 ---Flips the collision shapes horizontally for a collision object
@@ -246,18 +246,18 @@ function physics.set_hflip(url, flip) end
 ---@param collisionobject string|hash|url collision object where the joint exist
 ---@param joint_id string|hash id of the joint
 ---@param properties table joint specific properties table
----Note: The collide_connected field cannot be updated/changed after a connection has been made.
+---  Note: The collide_connected field cannot be updated/changed after a connection has been made.
 function physics.set_joint_properties(collisionobject, joint_id, properties) end
 
 ---Sets or clears the masking of a group (maskbit) in a collision object.
 ---@param url string|hash|url the collision object to change the mask of.
 ---@param group string the name of the group (maskbit) to modify in the mask.
 ---@param maskbit boolean boolean value of the new maskbit. 'true' to enable, 'false' to disable.
----local function make_invincible()
----    -- no longer collide with the "bullet" group
----    physics.set_maskbit("#collisionobject", "bullet", false)
----end
----
+---  local function make_invincible()
+---      -- no longer collide with the "bullet" group
+---      physics.set_maskbit("#collisionobject", "bullet", false)
+---  end
+---  
 function physics.set_maskbit(url, group, maskbit) end
 
 ---Sets collision shape data for a collision object. Please note that updating data in 3D
@@ -266,28 +266,28 @@ function physics.set_maskbit(url, group, maskbit) end
 ---@param url string|hash|url the collision object.
 ---@param shape string|hash the name of the shape to get data for.
 ---@param table { diameter:number|nil, dimensions:vector3|nil, height:number|nil } the shape data to update the shape with.
----See physics.get_shape for a detailed description of each field in the data table.
----local function set_shape_data()
----    -- set capsule shape data
----    local data = {}
----    data.type = physics.SHAPE_TYPE_CAPSULE
----    data.diameter = 10
----    data.height = 20
----    physics.set_shape("#collisionobject", "my_capsule_shape", data)
----
----    -- set sphere shape data
----    data = {}
----    data.type = physics.SHAPE_TYPE_SPHERE
----    data.diameter = 10
----    physics.set_shape("#collisionobject", "my_sphere_shape", data)
----
----    -- set box shape data
----    data = {}
----    data.type = physics.SHAPE_TYPE_BOX
----    data.dimensions = vmath.vector3(10, 10, 5)
----    physics.set_shape("#collisionobject", "my_box_shape", data)
----end
----
+---  See physics.get_shape for a detailed description of each field in the data table.
+---  local function set_shape_data()
+---      -- set capsule shape data
+---      local data = {}
+---      data.type = physics.SHAPE_TYPE_CAPSULE
+---      data.diameter = 10
+---      data.height = 20
+---      physics.set_shape("#collisionobject", "my_capsule_shape", data)
+---  
+---      -- set sphere shape data
+---      data = {}
+---      data.type = physics.SHAPE_TYPE_SPHERE
+---      data.diameter = 10
+---      physics.set_shape("#collisionobject", "my_sphere_shape", data)
+---  
+---      -- set box shape data
+---      data = {}
+---      data.type = physics.SHAPE_TYPE_BOX
+---      data.dimensions = vmath.vector3(10, 10, 5)
+---      physics.set_shape("#collisionobject", "my_box_shape", data)
+---  end
+---  
 function physics.set_shape(url, shape, table) end
 
 ---Flips the collision shapes vertically for a collision object
@@ -304,12 +304,12 @@ function physics.update_mass(collisionobject, mass) end
 ---Collision objects tend to fall asleep when inactive for a small period of time for
 ---efficiency reasons. This function wakes them up.
 ---@param url string|hash|url the collision object to wake.
----function on_input(self, action_id, action)
----    if action_id == hash("test") and action.pressed then
----        physics.wakeup("#collisionobject")
----    end
----end
----
+---  function on_input(self, action_id, action)
+---      if action_id == hash("test") and action.pressed then
+---          physics.wakeup("#collisionobject")
+---      end
+---  end
+---  
 function physics.wakeup(url) end
 
 return physics

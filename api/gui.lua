@@ -341,74 +341,74 @@ gui.TYPE_TEXT = nil
 ---together. See the examples below for more information.
 ---@param node node node to animate
 ---@param property string|constant property to animate
----
----"position"
----"rotation"
----"euler"
----"scale"
----"color"
----"outline"
----"shadow"
----"size"
----"fill_angle" (pie)
----"inner_radius" (pie)
----"leading" (text)
----"tracking" (text)
----"slice9" (slice9)
----
----The following property constants are defined equaling the corresponding property string names.
----
----gui.PROP_POSITION
----gui.PROP_ROTATION
----gui.PROP_EULER
----gui.PROP_SCALE
----gui.PROP_COLOR
----gui.PROP_OUTLINE
----gui.PROP_SHADOW
----gui.PROP_SIZE
----gui.PROP_FILL_ANGLE
----gui.PROP_INNER_RADIUS
----gui.PROP_LEADING
----gui.PROP_TRACKING
----gui.PROP_SLICE9
----
+---  
+---  "position"
+---  "rotation"
+---  "euler"
+---  "scale"
+---  "color"
+---  "outline"
+---  "shadow"
+---  "size"
+---  "fill_angle" (pie)
+---  "inner_radius" (pie)
+---  "leading" (text)
+---  "tracking" (text)
+---  "slice9" (slice9)
+---  
+---  The following property constants are defined equaling the corresponding property string names.
+---  
+---  gui.PROP_POSITION
+---  gui.PROP_ROTATION
+---  gui.PROP_EULER
+---  gui.PROP_SCALE
+---  gui.PROP_COLOR
+---  gui.PROP_OUTLINE
+---  gui.PROP_SHADOW
+---  gui.PROP_SIZE
+---  gui.PROP_FILL_ANGLE
+---  gui.PROP_INNER_RADIUS
+---  gui.PROP_LEADING
+---  gui.PROP_TRACKING
+---  gui.PROP_SLICE9
+---  
 ---@param to number|vector3|vector4|quaternion target property value
 ---@param easing constant|vector easing to use during animation.
----     Either specify one of the gui.EASING_* constants or provide a
----     vector with a custom curve. See the animation guide for more information.
+---       Either specify one of the gui.EASING_* constants or provide a
+---       vector with a custom curve. See the animation guide for more information.
 ---@param duration number duration of the animation in seconds.
----@param delay number delay before the animation starts in seconds.
----@param complete_function fun(self, node) function to call when the
----     animation has completed
----@param playback constant playback mode
----
----gui.PLAYBACK_ONCE_FORWARD
----gui.PLAYBACK_ONCE_BACKWARD
----gui.PLAYBACK_ONCE_PINGPONG
----gui.PLAYBACK_LOOP_FORWARD
----gui.PLAYBACK_LOOP_BACKWARD
----gui.PLAYBACK_LOOP_PINGPONG
----
+---@param delay? number delay before the animation starts in seconds.
+---@param complete_function? fun(self, node) function to call when the
+---       animation has completed
+---@param playback? constant playback mode
+---  
+---  gui.PLAYBACK_ONCE_FORWARD
+---  gui.PLAYBACK_ONCE_BACKWARD
+---  gui.PLAYBACK_ONCE_PINGPONG
+---  gui.PLAYBACK_LOOP_FORWARD
+---  gui.PLAYBACK_LOOP_BACKWARD
+---  gui.PLAYBACK_LOOP_PINGPONG
+---  
 function gui.animate(node, property, to, easing, duration, delay, complete_function, playback) end
 
 ---If an animation of the specified node is currently running (started by gui.animate), it will immediately be canceled.
 ---@param node node node that should have its animation canceled
 ---@param property string|constant property for which the animation should be canceled
----
----"position"
----"rotation"
----"euler"
----"scale"
----"color"
----"outline"
----"shadow"
----"size"
----"fill_angle" (pie)
----"inner_radius" (pie)
----"leading" (text)
----"tracking" (text)
----"slice9" (slice9)
----
+---  
+---  "position"
+---  "rotation"
+---  "euler"
+---  "scale"
+---  "color"
+---  "outline"
+---  "shadow"
+---  "size"
+---  "fill_angle" (pie)
+---  "inner_radius" (pie)
+---  "leading" (text)
+---  "tracking" (text)
+---  "slice9" (slice9)
+---  
 function gui.cancel_animation(node, property) end
 
 ---Cancels any running flipbook animation on the specified node.
@@ -461,8 +461,8 @@ function gui.delete_texture(texture) end
 ---You can also use this function to get material constants.
 ---@param node node node to get the property for
 ---@param property string|hash|constant the property to retrieve
----@param options table optional options table (only applicable for material constants)
----- index integer index into array property (1 based)
+---@param options? table optional options table (only applicable for material constants)
+---  - index integer index into array property (1 based)
 function gui.get(node, property, options) end
 
 ---Returns the adjust mode of a node.
@@ -470,11 +470,11 @@ function gui.get(node, property, options) end
 ---resolutions that differs from the one in the project settings.
 ---@param node node node from which to get the adjust mode (node)
 ---@return constant adjust_mode the current adjust mode
----
----gui.ADJUST_FIT
----gui.ADJUST_ZOOM
----gui.ADJUST_STRETCH
----
+---  
+---  gui.ADJUST_FIT
+---  gui.ADJUST_ZOOM
+---  gui.ADJUST_STRETCH
+---  
 function gui.get_adjust_mode(node) end
 
 ---gets the node alpha
@@ -486,13 +486,13 @@ function gui.get_alpha(node) end
 ---Blend mode defines how the node will be blended with the background.
 ---@param node node node from which to get the blend mode
 ---@return constant blend_mode blend mode
----
----gui.BLEND_ALPHA
----gui.BLEND_ADD
----gui.BLEND_ADD_ALPHA
----gui.BLEND_MULT
----gui.BLEND_SCREEN
----
+---  
+---  gui.BLEND_ALPHA
+---  gui.BLEND_ADD
+---  gui.BLEND_ADD_ALPHA
+---  gui.BLEND_MULT
+---  gui.BLEND_SCREEN
+---  
 function gui.get_blend_mode(node) end
 
 ---If node is set as an inverted clipping node, it will clip anything inside as opposed to outside.
@@ -503,10 +503,10 @@ function gui.get_clipping_inverted(node) end
 ---Clipping mode defines how the node will clip it's children nodes
 ---@param node node node from which to get the clipping mode
 ---@return constant clipping_mode clipping mode
----
----  gui.CLIPPING_MODE_NONE
----  gui.CLIPPING_MODE_STENCIL
----
+---  
+---    gui.CLIPPING_MODE_NONE
+---    gui.CLIPPING_MODE_STENCIL
+---  
 function gui.get_clipping_mode(node) end
 
 ---If node is set as visible clipping node, it will be shown as well as clipping. Otherwise, it will only clip but not show visually.
@@ -627,10 +627,10 @@ function gui.get_node(id) end
 ---Returns the outer bounds mode for a pie node.
 ---@param node node node from where to get the outer bounds mode
 ---@return constant bounds_mode the outer bounds mode of the pie node:
----
----gui.PIEBOUNDS_RECTANGLE
----gui.PIEBOUNDS_ELLIPSE
----
+---  
+---  gui.PIEBOUNDS_RECTANGLE
+---  gui.PIEBOUNDS_ELLIPSE
+---  
 function gui.get_outer_bounds(node) end
 
 ---Returns the outline color of the supplied node.
@@ -659,17 +659,17 @@ function gui.get_perimeter_vertices(node) end
 ---The pivot specifies how the node is drawn and rotated from its position.
 ---@param node node node to get pivot from
 ---@return constant pivot pivot constant
----
----  gui.PIVOT_CENTER
----  gui.PIVOT_N
----  gui.PIVOT_NE
----  gui.PIVOT_E
----  gui.PIVOT_SE
----  gui.PIVOT_S
----  gui.PIVOT_SW
----  gui.PIVOT_W
----  gui.PIVOT_NW
----
+---  
+---    gui.PIVOT_CENTER
+---    gui.PIVOT_N
+---    gui.PIVOT_NE
+---    gui.PIVOT_E
+---    gui.PIVOT_SE
+---    gui.PIVOT_S
+---    gui.PIVOT_SW
+---    gui.PIVOT_W
+---    gui.PIVOT_NW
+---  
 function gui.get_pivot(node) end
 
 ---Returns the position of the supplied node.
@@ -714,10 +714,10 @@ function gui.get_size(node) end
 ---any size mode setting.
 ---@param node node node from which to get the size mode (node)
 ---@return constant size_mode the current size mode
----
----gui.SIZE_MODE_MANUAL
----gui.SIZE_MODE_AUTO
----
+---  
+---  gui.SIZE_MODE_MANUAL
+---  gui.SIZE_MODE_AUTO
+---  
 function gui.get_size_mode(node) end
 
 ---Returns the slice9 configuration values for the node.
@@ -750,13 +750,13 @@ function gui.get_tree(node) end
 ---gets the node type
 ---@param node node node from which to get the type
 ---@return constant type type
----
----gui.TYPE_BOX
----gui.TYPE_TEXT
----gui.TYPE_PIE
----gui.TYPE_PARTICLEFX
----gui.TYPE_CUSTOM
----
+---  
+---  gui.TYPE_BOX
+---  gui.TYPE_TEXT
+---  gui.TYPE_PIE
+---  gui.TYPE_PARTICLEFX
+---  gui.TYPE_CUSTOM
+---  
 ---@return integer|nil subtype id of the custom type
 function gui.get_type(node) end
 
@@ -773,21 +773,21 @@ function gui.get_width() end
 ---The x-anchor specifies how the node is moved when the game is run in a different resolution.
 ---@param node node node to get x-anchor from
 ---@return constant anchor anchor constant
----
----gui.ANCHOR_NONE
----gui.ANCHOR_LEFT
----gui.ANCHOR_RIGHT
----
+---  
+---  gui.ANCHOR_NONE
+---  gui.ANCHOR_LEFT
+---  gui.ANCHOR_RIGHT
+---  
 function gui.get_xanchor(node) end
 
 ---The y-anchor specifies how the node is moved when the game is run in a different resolution.
 ---@param node node node to get y-anchor from
 ---@return constant anchor anchor constant
----
----gui.ANCHOR_NONE
----gui.ANCHOR_TOP
----gui.ANCHOR_BOTTOM
----
+---  
+---  gui.ANCHOR_NONE
+---  gui.ANCHOR_TOP
+---  gui.ANCHOR_BOTTOM
+---  
 function gui.get_yanchor(node) end
 
 ---Hides the on-display touch keyboard on the device.
@@ -796,7 +796,7 @@ function gui.hide_keyboard() end
 ---Returns true if a node is enabled and false if it's not.
 ---Disabled nodes are not rendered and animations acting on them are not evaluated.
 ---@param node node node to query
----@param recursive boolean check hierarchy recursively
+---@param recursive? boolean check hierarchy recursively
 ---@return boolean enabled whether the node is enabled or not
 function gui.is_enabled(node, recursive) end
 
@@ -843,11 +843,11 @@ function gui.new_text_node(pos, text) end
 ---@param width number texture width
 ---@param height number texture height
 ---@param type string|constant texture type
----
----"rgb" - RGB
----"rgba" - RGBA
----"l" - LUMINANCE
----
+---  
+---  "rgb" - RGB
+---  "rgba" - RGBA
+---  "l" - LUMINANCE
+---  
 ---@param buffer string texture data
 ---@param flip boolean flip texture vertically
 ---@return boolean success texture creation was successful
@@ -867,45 +867,45 @@ function gui.pick_node(node, x, y) end
 ---Use this function to set one-frame still images on the node.
 ---@param node node node to set animation for
 ---@param animation string|hash animation id
----@param complete_function fun(self, node) optional function to call when the animation has completed
----
----self
----
----object The current object.
----
----node
----
----node The node that is animated.
----
----
----@param play_properties { offset:number|nil, playback_rate:number|nil } optional table with properties
----
----offset
----number The normalized initial value of the animation cursor when the animation starts playing
----playback_rate
----number The rate with which the animation will be played. Must be positive
----
+---@param complete_function? fun(self, node) optional function to call when the animation has completed
+---  
+---  self
+---  
+---  object The current object.
+---  
+---  node
+---  
+---  node The node that is animated.
+---  
+---  
+---@param play_properties? table optional table with properties
+---  
+---  offset
+---  number The normalized initial value of the animation cursor when the animation starts playing
+---  playback_rate
+---  number The rate with which the animation will be played. Must be positive
+---  
 function gui.play_flipbook(node, animation, complete_function, play_properties) end
 
 ---Plays the paricle fx for a gui node
 ---@param node node node to play particle fx for
----@param emitter_state_function fun(self, node, emitter, state) optional callback function that will be called when an emitter attached to this particlefx changes state.
----
----self
----object The current object
----node
----hash The particle fx node, or nil if the node was deleted
----emitter
----hash The id of the emitter
----state
----constant the new state of the emitter:
----
----
----particlefx.EMITTER_STATE_SLEEPING
----particlefx.EMITTER_STATE_PRESPAWN
----particlefx.EMITTER_STATE_SPAWNING
----particlefx.EMITTER_STATE_POSTSPAWN
----
+---@param emitter_state_function? fun(self, node, emitter, state) optional callback function that will be called when an emitter attached to this particlefx changes state.
+---  
+---  self
+---  object The current object
+---  node
+---  hash The particle fx node, or nil if the node was deleted
+---  emitter
+---  hash The id of the emitter
+---  state
+---  constant the new state of the emitter:
+---  
+---  
+---  particlefx.EMITTER_STATE_SLEEPING
+---  particlefx.EMITTER_STATE_PRESPAWN
+---  particlefx.EMITTER_STATE_SPAWNING
+---  particlefx.EMITTER_STATE_POSTSPAWN
+---  
 function gui.play_particlefx(node, emitter_state_function) end
 
 ---Resets the input context of keyboard. This will clear marked text.
@@ -956,9 +956,9 @@ function gui.screen_to_local(node, screen_position) end
 ---@param node node|url node to set the property for, or msg.url() to the gui itself
 ---@param property string|hash|constant the property to set
 ---@param value number|vector4|vector3|quaternion the property to set
----@param options table optional options table (only applicable for material constants)
----- index integer index into array property (1 based)
----- key hash name of internal property
+---@param options? table optional options table (only applicable for material constants)
+---  - index integer index into array property (1 based)
+---  - key hash name of internal property
 function gui.set(node, property, value, options) end
 
 ---Sets the adjust mode on a node.
@@ -966,11 +966,11 @@ function gui.set(node, property, value, options) end
 ---resolutions that differs from the one in the project settings.
 ---@param node node node to set adjust mode for
 ---@param adjust_mode constant adjust mode to set
----
----gui.ADJUST_FIT
----gui.ADJUST_ZOOM
----gui.ADJUST_STRETCH
----
+---  
+---  gui.ADJUST_FIT
+---  gui.ADJUST_ZOOM
+---  gui.ADJUST_STRETCH
+---  
 function gui.set_adjust_mode(node, adjust_mode) end
 
 ---sets the node alpha
@@ -982,13 +982,13 @@ function gui.set_alpha(node, alpha) end
 ---Blend mode defines how the node will be blended with the background.
 ---@param node node node to set blend mode for
 ---@param blend_mode constant blend mode to set
----
----gui.BLEND_ALPHA
----gui.BLEND_ADD
----gui.BLEND_ADD_ALPHA
----gui.BLEND_MULT
----gui.BLEND_SCREEN
----
+---  
+---  gui.BLEND_ALPHA
+---  gui.BLEND_ADD
+---  gui.BLEND_ADD_ALPHA
+---  gui.BLEND_MULT
+---  gui.BLEND_SCREEN
+---  
 function gui.set_blend_mode(node, blend_mode) end
 
 ---If node is set as an inverted clipping node, it will clip anything inside as opposed to outside.
@@ -999,10 +999,10 @@ function gui.set_clipping_inverted(node, inverted) end
 ---Clipping mode defines how the node will clip it's children nodes
 ---@param node node node to set clipping mode for
 ---@param clipping_mode constant clipping mode to set
----
----  gui.CLIPPING_MODE_NONE
----  gui.CLIPPING_MODE_STENCIL
----
+---  
+---    gui.CLIPPING_MODE_NONE
+---    gui.CLIPPING_MODE_STENCIL
+---  
 function gui.set_clipping_mode(node, clipping_mode) end
 
 ---If node is set as an visible clipping node, it will be shown as well as clipping. Otherwise, it will only clip but not show visually.
@@ -1107,10 +1107,10 @@ function gui.set_material(node, material) end
 ---Sets the outer bounds mode for a pie node.
 ---@param node node node for which to set the outer bounds mode
 ---@param bounds_mode constant the outer bounds mode of the pie node:
----
----gui.PIEBOUNDS_RECTANGLE
----gui.PIEBOUNDS_ELLIPSE
----
+---  
+---  gui.PIEBOUNDS_RECTANGLE
+---  gui.PIEBOUNDS_ELLIPSE
+---  
 function gui.set_outer_bounds(node, bounds_mode) end
 
 ---Sets the outline color of the supplied node.
@@ -1121,8 +1121,8 @@ function gui.set_outline(node, color) end
 
 ---Sets the parent node of the specified node.
 ---@param node node node for which to set its parent
----@param parent node parent node to set, pass nil to remove parent
----@param keep_scene_transform boolean optional flag to make the scene position being perserved
+---@param parent? node parent node to set, pass nil to remove parent
+---@param keep_scene_transform? boolean optional flag to make the scene position being perserved
 function gui.set_parent(node, parent, keep_scene_transform) end
 
 ---Set the paricle fx for a gui node
@@ -1138,17 +1138,17 @@ function gui.set_perimeter_vertices(node, vertices) end
 ---The pivot specifies how the node is drawn and rotated from its position.
 ---@param node node node to set pivot for
 ---@param pivot constant pivot constant
----
----  gui.PIVOT_CENTER
----  gui.PIVOT_N
----  gui.PIVOT_NE
----  gui.PIVOT_E
----  gui.PIVOT_SE
----  gui.PIVOT_S
----  gui.PIVOT_SW
----  gui.PIVOT_W
----  gui.PIVOT_NW
----
+---  
+---    gui.PIVOT_CENTER
+---    gui.PIVOT_N
+---    gui.PIVOT_NE
+---    gui.PIVOT_E
+---    gui.PIVOT_SE
+---    gui.PIVOT_S
+---    gui.PIVOT_SW
+---    gui.PIVOT_W
+---    gui.PIVOT_NW
+---  
 function gui.set_pivot(node, pivot) end
 
 ---Sets the position of the supplied node.
@@ -1200,10 +1200,10 @@ function gui.set_size(node, size) end
 ---any size mode setting.
 ---@param node node node to set size mode for
 ---@param size_mode constant size mode to set
----
----gui.SIZE_MODE_MANUAL
----gui.SIZE_MODE_AUTO
----
+---  
+---  gui.SIZE_MODE_MANUAL
+---  gui.SIZE_MODE_AUTO
+---  
 function gui.set_size_mode(node, size_mode) end
 
 ---Set the slice9 configuration values for the node.
@@ -1231,11 +1231,11 @@ function gui.set_texture(node, texture) end
 ---@param width number texture width
 ---@param height number texture height
 ---@param type string|constant texture type
----
----  "rgb" - RGB
----  "rgba" - RGBA
----  "l" - LUMINANCE
----
+---  
+---    "rgb" - RGB
+---    "rgba" - RGBA
+---    "l" - LUMINANCE
+---  
 ---@param buffer string texture data
 ---@param flip boolean flip texture vertically
 ---@return boolean success setting the data was successful
@@ -1255,21 +1255,21 @@ function gui.set_visible(node, visible) end
 ---The x-anchor specifies how the node is moved when the game is run in a different resolution.
 ---@param node node node to set x-anchor for
 ---@param anchor constant anchor constant
----
----gui.ANCHOR_NONE
----gui.ANCHOR_LEFT
----gui.ANCHOR_RIGHT
----
+---  
+---  gui.ANCHOR_NONE
+---  gui.ANCHOR_LEFT
+---  gui.ANCHOR_RIGHT
+---  
 function gui.set_xanchor(node, anchor) end
 
 ---The y-anchor specifies how the node is moved when the game is run in a different resolution.
 ---@param node node node to set y-anchor for
 ---@param anchor constant anchor constant
----
----gui.ANCHOR_NONE
----gui.ANCHOR_TOP
----gui.ANCHOR_BOTTOM
----
+---  
+---  gui.ANCHOR_NONE
+---  gui.ANCHOR_TOP
+---  gui.ANCHOR_BOTTOM
+---  
 function gui.set_yanchor(node, anchor) end
 
 ---Shows the on-display touch keyboard.
@@ -1277,21 +1277,21 @@ function gui.set_yanchor(node, anchor) end
 ---the device.
 ---This function is only available on iOS and Android.  .
 ---@param type constant keyboard type
----
----gui.KEYBOARD_TYPE_DEFAULT
----gui.KEYBOARD_TYPE_EMAIL
----gui.KEYBOARD_TYPE_NUMBER_PAD
----gui.KEYBOARD_TYPE_PASSWORD
----
+---  
+---  gui.KEYBOARD_TYPE_DEFAULT
+---  gui.KEYBOARD_TYPE_EMAIL
+---  gui.KEYBOARD_TYPE_NUMBER_PAD
+---  gui.KEYBOARD_TYPE_PASSWORD
+---  
 ---@param autoclose boolean if the keyboard should automatically close when clicking outside
 function gui.show_keyboard(type, autoclose) end
 
 ---Stops the particle fx for a gui node
 ---@param node node node to stop particle fx for
----@param options { clear:boolean|nil } options when stopping the particle fx. Supported options:
----
----boolean clear: instantly clear spawned particles
----
+---@param options? table options when stopping the particle fx. Supported options:
+---  
+---  boolean clear: instantly clear spawned particles
+---  
 function gui.stop_particlefx(node, options) end
 
 

@@ -35,23 +35,23 @@ particlefx.EMITTER_STATE_SPAWNING = nil
 ---Which particle FX to play is identified by the URL.
 --- A particle FX will continue to emit particles even if the game object the particle FX component belonged to is deleted. You can call particlefx.stop() to stop it from emitting more particles.
 ---@param url string|hash|url the particle fx that should start playing.
----@param emitter_state_function fun(self, id, emitter, state) optional callback function that will be called when an emitter attached to this particlefx changes state.
----
----self
----object The current object
----id
----hash The id of the particle fx component
----emitter
----hash The id of the emitter
----state
----constant the new state of the emitter:
----
----
----particlefx.EMITTER_STATE_SLEEPING
----particlefx.EMITTER_STATE_PRESPAWN
----particlefx.EMITTER_STATE_SPAWNING
----particlefx.EMITTER_STATE_POSTSPAWN
----
+---@param emitter_state_function? fun(self, id, emitter, state) optional callback function that will be called when an emitter attached to this particlefx changes state.
+---  
+---  self
+---  object The current object
+---  id
+---  hash The id of the particle fx component
+---  emitter
+---  hash The id of the emitter
+---  state
+---  constant the new state of the emitter:
+---  
+---  
+---  particlefx.EMITTER_STATE_SLEEPING
+---  particlefx.EMITTER_STATE_PRESPAWN
+---  particlefx.EMITTER_STATE_SPAWNING
+---  particlefx.EMITTER_STATE_POSTSPAWN
+---  
 function particlefx.play(url, emitter_state_function) end
 
 ---Resets a shader constant for a particle FX component emitter.
@@ -78,10 +78,10 @@ function particlefx.set_constant(url, emitter, constant, value) end
 ---Stopping a particle FX does not remove already spawned particles.
 ---Which particle FX to stop is identified by the URL.
 ---@param url string|hash|url the particle fx that should stop playing
----@param options { clear:boolean|nil } Options when stopping the particle fx. Supported options:
----
----boolean clear: instantly clear spawned particles
----
+---@param options? table Options when stopping the particle fx. Supported options:
+---  
+---  boolean clear: instantly clear spawned particles
+---  
 function particlefx.stop(url, options) end
 
 return particlefx

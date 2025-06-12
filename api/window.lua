@@ -52,11 +52,11 @@ window.WINDOW_EVENT_RESIZED = nil
 ---The dimming mode specifies whether or not a mobile device should dim the screen after a period without user interaction.
 ---On platforms that does not support dimming, window.DIMMING_UNKNOWN is always returned.
 ---@return constant mode The mode for screen dimming
----
----window.DIMMING_UNKNOWN
----window.DIMMING_ON
----window.DIMMING_OFF
----
+---  
+---  window.DIMMING_UNKNOWN
+---  window.DIMMING_ON
+---  window.DIMMING_OFF
+---  
 function window.get_dim_mode() end
 
 ---This returns the content scale of the current display.
@@ -76,35 +76,35 @@ function window.get_size() end
 ---The dimming mode specifies whether or not a mobile device should dim the screen after a period without user interaction. The dimming mode will only affect the mobile device while the game is in focus on the device, but not when the game is running in the background.
 ---This function has no effect on platforms that does not support dimming.
 ---@param mode constant The mode for screen dimming
----
----window.DIMMING_ON
----window.DIMMING_OFF
----
+---  
+---  window.DIMMING_ON
+---  window.DIMMING_OFF
+---  
 function window.set_dim_mode(mode) end
 
 ---Sets a window event listener.
 ---@param callback fun(self, event, data)|nil A callback which receives info about window events. Pass an empty function or nil if you no longer wish to receive callbacks.
----
----self
----object The calling script
----event
----constant The type of event. Can be one of these:
----
----
----window.WINDOW_EVENT_FOCUS_LOST
----window.WINDOW_EVENT_FOCUS_GAINED
----window.WINDOW_EVENT_RESIZED
----window.WINDOW_EVENT_ICONIFIED
----window.WINDOW_EVENT_DEICONIFIED
----
----
----data
----table The callback value data is a table which currently holds these values
----
----
----number width: The width of a resize event. nil otherwise.
----number height: The height of a resize event. nil otherwise.
----
+---  
+---  self
+---  object The calling script
+---  event
+---  constant The type of event. Can be one of these:
+---  
+---  
+---  window.WINDOW_EVENT_FOCUS_LOST
+---  window.WINDOW_EVENT_FOCUS_GAINED
+---  window.WINDOW_EVENT_RESIZED
+---  window.WINDOW_EVENT_ICONIFIED
+---  window.WINDOW_EVENT_DEICONIFIED
+---  
+---  
+---  data
+---  table The callback value data is a table which currently holds these values
+---  
+---  
+---  number width: The width of a resize event. nil otherwise.
+---  number height: The height of a resize event. nil otherwise.
+---  
 function window.set_listener(callback) end
 
 ---Set the locking state for current mouse cursor on a PC platform.

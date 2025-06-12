@@ -25,3 +25,10 @@ function hash(s) end
 ---@param h hash hash value to get hex string for
 ---@return string hex hex representation of the hash
 function hash_to_hex(h) end
+
+---Pretty printing of Lua values. This function prints Lua values
+---in a manner similar to +print()+, but will also recurse into tables
+---and pretty print them. There is a limit to how deep the function
+---will recurse.
+---@param ... any value to print
+function pprint(...) end

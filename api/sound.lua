@@ -91,39 +91,38 @@ function sound.pause(url, pause) end
 ---Make the sound component play its sound. Multiple voices are supported. The limit is set to 32 voices per sound component.
 --- A sound will continue to play even if the game object the sound component belonged to is deleted. You can call sound.stop() to stop the sound.
 ---@param url string|hash|url the sound that should play
----@param play_properties { delay:number|nil, gain:number|nil, pan:number|nil, speed:number|nil } 
----optional table with properties:
----delay
----number delay in seconds before the sound starts playing, default is 0.
----gain
----number sound gain between 0 and 1, default is 1. The final gain of the sound will be a combination of this gain, the group gain and the master gain.
----pan
----number sound pan between -1 and 1, default is 0. The final pan of the sound will be an addition of this pan and the sound pan.
----speed
----number sound speed where 1.0 is normal speed, 0.5 is half speed and 2.0 is double speed. The final speed of the sound will be a multiplication of this speed and the sound speed.
----
----@param complete_function fun(self, message_id, message, sender) function to call when the sound has finished playing or stopped manually via sound.stop.
----
----self
----object The current object.
----message_id
----hash The name of the completion message, which can be either "sound_done" if the sound has finished playing, or "sound_stopped" if it was stopped manually.
----message
----table Information about the completion:
----
----
----number play_id - the sequential play identifier that was given by the sound.play function.
----
----
----sender
----url The invoker of the callback: the sound component.
----
+---@param play_properties? table optional table with properties:
+---  delay
+---  number delay in seconds before the sound starts playing, default is 0.
+---  gain
+---  number sound gain between 0 and 1, default is 1. The final gain of the sound will be a combination of this gain, the group gain and the master gain.
+---  pan
+---  number sound pan between -1 and 1, default is 0. The final pan of the sound will be an addition of this pan and the sound pan.
+---  speed
+---  number sound speed where 1.0 is normal speed, 0.5 is half speed and 2.0 is double speed. The final speed of the sound will be a multiplication of this speed and the sound speed.
+---  
+---@param complete_function? fun(self, message_id, message, sender) function to call when the sound has finished playing or stopped manually via sound.stop.
+---  
+---  self
+---  object The current object.
+---  message_id
+---  hash The name of the completion message, which can be either "sound_done" if the sound has finished playing, or "sound_stopped" if it was stopped manually.
+---  message
+---  table Information about the completion:
+---  
+---  
+---  number play_id - the sequential play identifier that was given by the sound.play function.
+---  
+---  
+---  sender
+---  url The invoker of the callback: the sound component.
+---  
 ---@return number play_id The identifier for the sound voice
 function sound.play(url, play_properties, complete_function) end
 
 ---Set gain on all active playing voices of a sound.
 ---@param url string|hash|url the sound to set the gain of
----@param gain number sound gain between 0 and 1 [-60dB .. 0dB]. The final gain of the sound will be a combination of this gain, the group gain and the master gain.
+---@param gain? number sound gain between 0 and 1 [-60dB .. 0dB]. The final gain of the sound will be a combination of this gain, the group gain and the master gain.
 function sound.set_gain(url, gain) end
 
 ---Set mixer group gain
@@ -134,16 +133,15 @@ function sound.set_group_gain(group, gain) end
 ---Set panning on all active playing voices of a sound.
 ---The valid range is from -1.0 to 1.0, representing -45 degrees left, to +45 degrees right.
 ---@param url string|hash|url the sound to set the panning value to
----@param pan number sound panning between -1.0 and 1.0
+---@param pan? number sound panning between -1.0 and 1.0
 function sound.set_pan(url, pan) end
 
 ---Stop playing all active voices or just one voice if play_id provided
 ---@param url string|hash|url the sound component that should stop
----@param stop_properties { play_id:number } 
----optional table with properties:
----play_id
----number the sequential play identifier that should be stopped (was given by the sound.play() function)
----
+---@param stop_properties? table optional table with properties:
+---  play_id
+---  number the sequential play identifier that should be stopped (was given by the sound.play() function)
+---  
 function sound.stop(url, stop_properties) end
 
 return sound

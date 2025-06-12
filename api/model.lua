@@ -62,41 +62,41 @@ function model.get_mesh_enabled(url, mesh_id) end
 ---@param url string|hash|url the model for which to play the animation
 ---@param anim_id string|hash id of the animation to play
 ---@param playback constant playback mode of the animation
----
----go.PLAYBACK_ONCE_FORWARD
----go.PLAYBACK_ONCE_BACKWARD
----go.PLAYBACK_ONCE_PINGPONG
----go.PLAYBACK_LOOP_FORWARD
----go.PLAYBACK_LOOP_BACKWARD
----go.PLAYBACK_LOOP_PINGPONG
----
----@param play_properties { blend_duration:number|nil, offset:number|nil, playback_rate:number|nil} optional table with properties
----Play properties table:
----
----blend_duration
----number Duration of a linear blend between the current and new animation.
----offset
----number The normalized initial value of the animation cursor when the animation starts playing.
----playback_rate
----number The rate with which the animation will be played. Must be positive.
----
----@param complete_function fun(self, message_id, message, sender) function to call when the animation has completed.
----
----self
----object The current object.
----message_id
----hash The name of the completion message, "model_animation_done".
----message
----table Information about the completion:
----
----
----hash animation_id - the animation that was completed.
----constant playback - the playback mode for the animation.
----
----
----sender
----url The invoker of the callback: the model component.
----
+---  
+---  go.PLAYBACK_ONCE_FORWARD
+---  go.PLAYBACK_ONCE_BACKWARD
+---  go.PLAYBACK_ONCE_PINGPONG
+---  go.PLAYBACK_LOOP_FORWARD
+---  go.PLAYBACK_LOOP_BACKWARD
+---  go.PLAYBACK_LOOP_PINGPONG
+---  
+---@param play_properties? table optional table with properties
+---  Play properties table:
+---  
+---  blend_duration
+---  number Duration of a linear blend between the current and new animation.
+---  offset
+---  number The normalized initial value of the animation cursor when the animation starts playing.
+---  playback_rate
+---  number The rate with which the animation will be played. Must be positive.
+---  
+---@param complete_function? fun(self, message_id, message, sender) function to call when the animation has completed.
+---  
+---  self
+---  object The current object.
+---  message_id
+---  hash The name of the completion message, "model_animation_done".
+---  message
+---  table Information about the completion:
+---  
+---  
+---  hash animation_id - the animation that was completed.
+---  constant playback - the playback mode for the animation.
+---  
+---  
+---  sender
+---  url The invoker of the callback: the model component.
+---  
 function model.play_anim(url, anim_id, playback, play_properties, complete_function) end
 
 ---Enable or disable visibility of a mesh

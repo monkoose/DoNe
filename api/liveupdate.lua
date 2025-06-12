@@ -94,17 +94,17 @@ function liveupdate.remove_mount(name) end
 ---The path is stored in the (internal) live update location.
 ---@param path string the path to the original file on disc
 ---@param callback fun(self, status) the callback function
----executed after the storage has completed
----
----self
----object The current object.
----status
----constant the status of the store operation (See liveupdate.store_manifest)
----
----@param options table optional table with extra parameters. Supported entries:
----
----boolean verify: if archive should be verified as well as stored (defaults to true)
----
+---  executed after the storage has completed
+---  
+---  self
+---  object The current object.
+---  status
+---  constant the status of the store operation (See liveupdate.store_manifest)
+---  
+---@param options? table optional table with extra parameters. Supported entries:
+---  
+---  boolean verify: if archive should be verified as well as stored (defaults to true)
+---  
 function liveupdate.store_archive(path, callback, options) end
 
 ---Create a new manifest from a buffer. The created manifest is verified
@@ -117,22 +117,22 @@ function liveupdate.store_archive(path, callback, options) end
 ---resources to the game through LiveUpdate.
 ---@param manifest_buffer string the binary data that represents the manifest
 ---@param callback fun(self, status) the callback function
----executed once the engine has attempted to store the manifest.
----
----self
----object The current object.
----status
----constant the status of the store operation:
----
----
----liveupdate.LIVEUPDATE_OK
----liveupdate.LIVEUPDATE_INVALID_RESOURCE
----liveupdate.LIVEUPDATE_VERSION_MISMATCH
----liveupdate.LIVEUPDATE_ENGINE_VERSION_MISMATCH
----liveupdate.LIVEUPDATE_SIGNATURE_MISMATCH
----liveupdate.LIVEUPDATE_BUNDLED_RESOURCE_MISMATCH
----liveupdate.LIVEUPDATE_FORMAT_ERROR
----
+---  executed once the engine has attempted to store the manifest.
+---  
+---  self
+---  object The current object.
+---  status
+---  constant the status of the store operation:
+---  
+---  
+---  liveupdate.LIVEUPDATE_OK
+---  liveupdate.LIVEUPDATE_INVALID_RESOURCE
+---  liveupdate.LIVEUPDATE_VERSION_MISMATCH
+---  liveupdate.LIVEUPDATE_ENGINE_VERSION_MISMATCH
+---  liveupdate.LIVEUPDATE_SIGNATURE_MISMATCH
+---  liveupdate.LIVEUPDATE_BUNDLED_RESOURCE_MISMATCH
+---  liveupdate.LIVEUPDATE_FORMAT_ERROR
+---  
 function liveupdate.store_manifest(manifest_buffer, callback) end
 
 ---add a resource to the data archive and runtime index. The resource will be verified
@@ -140,18 +140,18 @@ function liveupdate.store_manifest(manifest_buffer, callback) end
 ---@param manifest_reference number The manifest to check against.
 ---@param data string The resource data that should be stored.
 ---@param hexdigest string The expected hash for the resource,
----retrieved through collectionproxy.missing_resources.
+---  retrieved through collectionproxy.missing_resources.
 ---@param callback fun(self, hexdigest, status) The callback
----function that is executed once the engine has been attempted to store
----the resource.
----
----self
----object The current object.
----hexdigest
----string The hexdigest of the resource.
----status
----boolean Whether or not the resource was successfully stored.
----
+---  function that is executed once the engine has been attempted to store
+---  the resource.
+---  
+---  self
+---  object The current object.
+---  hexdigest
+---  string The hexdigest of the resource.
+---  status
+---  boolean Whether or not the resource was successfully stored.
+---  
 function liveupdate.store_resource(manifest_reference, data, hexdigest, callback) end
 
 return liveupdate

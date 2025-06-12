@@ -35,7 +35,7 @@ collectionproxy.RESULT_NOT_EXCLUDED = nil
 ---functionality.
 ---@param collectionproxy url the collectionproxy to check for resources.
 ---@return string[] resources the resources, or an empty list if the
----collection was not excluded.
+---  collection was not excluded.
 function collectionproxy.get_resources(collectionproxy) end
 
 ---return an array of missing resources for a collection proxy. Each
@@ -46,7 +46,7 @@ function collectionproxy.get_resources(collectionproxy) end
 ---check whether or not there are any missing resources in a collection proxy
 ---before attempting to load the collection proxy.
 ---@param collectionproxy url the collectionproxy to check for missing
----resources.
+---  resources.
 ---@return string[] resources the missing resources
 function collectionproxy.missing_resources(collectionproxy) end
 
@@ -54,8 +54,8 @@ function collectionproxy.missing_resources(collectionproxy) end
 ---Setting the collection to "nil" will revert it back to the original collection.
 ---The collection proxy shouldn't be loaded and should have the 'Exclude' checkbox checked.
 ---This functionality is designed to simplify the management of Live Update resources.
----@param url string|hash|url the collection proxy component
----@param prototype string|nil the path to the new collection, or nil
+---@param url? string|hash|url the collection proxy component
+---@param prototype? string|nil the path to the new collection, or nil
 ---@return boolean success collection change was successful
 ---@return number code one of the collectionproxy.RESULT_* codes if unsuccessful
 function collectionproxy.set_collection(url, prototype) end

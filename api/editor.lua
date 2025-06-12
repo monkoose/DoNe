@@ -190,8 +190,8 @@ zip.METHOD.STORED = nil
 
 ---Run bob the builder program
 ---For the full documentation of the available commands and options, see the bob manual.
----@param options table table of command line options for bob, without the leading dashes (--). You can use snake_case instead of kebab-case for option keys. Only long option names are supported (i.e. output, not o). Supported value types are strings, integers and booleans. If an option takes no arguments, use a boolean (i.e. true). If an option may be repeated, you can use an array of values.
----@param ... string bob commands, e.g. "resolve" or "build"
+---@param options? table table of command line options for bob, without the leading dashes (--). You can use snake_case instead of kebab-case for option keys. Only long option names are supported (i.e. output, not o). Supported value types are strings, integers and booleans. If an option takes no arguments, use a boolean (i.e. true). If an option may be repeated, you can use an array of values.
+---@param ...? string bob commands, e.g. "resolve" or "build"
 function editor.bob(options, ...) end
 
 ---Open a URL in the default browser or a registered application
@@ -217,7 +217,7 @@ function editor.bundle.assoc_in(table, keys, value) end
 ---@param set_config function config setter
 ---@param key string config key for the selected value
 ---@param text string check box label text
----@param rest_props table extra props for editor.ui.check_box
+---@param rest_props? table extra props for editor.ui.check_box
 ---@return editor.component check_box UI component
 function editor.bundle.check_box(config, set_config, key, text, rest_props) end
 
@@ -231,7 +231,7 @@ function editor.bundle.check_boxes_grid_row(config, set_config) end
 ---@param label string Command label, as presented in the UI
 ---@param id string Command id, e.g. "bundle-my-platform", used for re-bundling
 ---@param fn function bundle function, will receive a requested_dialog boolean argument
----@param rest table extra keys for the command definition, e.g. active
+---@param rest? table extra keys for the command definition, e.g. active
 function editor.bundle.command(label, id, fn, rest) end
 
 ---Create a grid row for the common variant setting
@@ -244,13 +244,13 @@ function editor.bundle.common_variant_grid_row(config, set_config) end
 ---@param requested_dialog boolean whether the user explicitly requested a dialog
 ---@param prefs_key string preference key used for loading the bundle config
 ---@param dialog_component editor.component UI component for the dialog, will receive config and (optional) errors props
----@param errors_fn function error checking predicate, takes config as an argument; if returns truthy value, it will be passed as a prop to dialog_component
+---@param errors_fn? function error checking predicate, takes config as an argument; if returns truthy value, it will be passed as a prop to dialog_component
 ---@return any config 
 function editor.bundle.config(requested_dialog, prefs_key, dialog_component, errors_fn) end
 
 ---Helper function for constructing prefs schema for new bundle dialogs
 ---@param variant_schema editor.schema bundle variant schema
----@param properties table|nil extra config properties
+---@param properties? table|nil extra config properties
 ---@return editor.schema schema full bundle schema, defines a project-scoped object schema with the following keys:variantthe provided variant schematexture_compression stringeither enabled, disabled or editorwith_symbols booleanbuild_report booleanliveupdate booleancontentless boolean
 function editor.bundle.config_schema(variant_schema, properties) end
 
@@ -279,8 +279,8 @@ function editor.bundle.dialog(heading, config, hint, error, rows) end
 ---@param config table config map with common boolean keys
 ---@param set_config function config setter
 ---@param key string config key for the set
----@param error string error message
----@param rest_props table extra props for editor.ui.external_file_field
+---@param error? string error message
+---@param rest_props? table extra props for editor.ui.external_file_field
 ---@return editor.component external_file_field UI component
 function editor.bundle.external_file_field(config, set_config, key, error, rest_props) end
 
@@ -306,7 +306,7 @@ function editor.bundle.output_directory(requested_dialog, output_subdir) end
 ---@param key string config key for the selected value
 ---@param options any[ ] select box options
 ---@param to_string function option stringifier
----@param rest_props table extra props for editor.ui.select_box
+---@param rest_props? table extra props for editor.ui.select_box
 ---@return editor.component select_box UI component
 function editor.bundle.select_box(config, set_config, key, options, to_string, rest_props) end
 
@@ -316,7 +316,7 @@ function editor.bundle.select_box(config, set_config, key, options, to_string, r
 ---@param key string config key for the set
 ---@param element string enum value in the set
 ---@param text string check box label text
----@param error string error message
+---@param error? string error message
 ---@return editor.component check_box UI component
 function editor.bundle.set_element_check_box(config, set_config, key, element, text, error) end
 
@@ -362,8 +362,8 @@ function editor.delete_directory(resource_path) end
 ---Execute a shell command.
 ---Any shell command arguments should be provided as separate argument strings to this function. If the exit code of the process is not zero, this function throws error. By default, the function returns nil, but it can be configured to capture the output of the shell command as string and return it — set out option to "capture" to do it.By default, after this shell command is executed, the editor will reload resources from disk.
 ---@param command string Shell command name to execute
----@param ... string Optional shell command arguments
----@param options { reload_resources:boolean|nil, out:string|nil, err:string|nil } Optional options table. Supported entries:                                                                                                                                          boolean reload_resources: make the editor reload the resources from disk after the command is executed, default true                                                                                                                                            string out: standard output mode, either:                                                                                                                                                      "pipe": the output is piped to the editor console (this is the default behavior).                                                                                                                                                        "capture": capture and return the output to the editor script with trailing newlines trimmed.                                                                                                                                                        "discard": the output is discarded completely.                                                                                                                                                                                                                                              string err: standard error output mode, either:                                                                                                                                                      "pipe": the error output is piped to the editor console (this is the default behavior).                                                                                                                                                        "stdout": the error output is redirected to the standard output of the process.                                                                                                                                                        "discard": the error output is discarded completely.                                                                                                                                                                                            
+---@param ...? string Optional shell command arguments
+---@param options? table Optional options table. Supported entries:                                                                                                                                          boolean reload_resources: make the editor reload the resources from disk after the command is executed, default true                                                                                                                                            string out: standard output mode, either:                                                                                                                                                      "pipe": the output is piped to the editor console (this is the default behavior).                                                                                                                                                        "capture": capture and return the output to the editor script with trailing newlines trimmed.                                                                                                                                                        "discard": the output is discarded completely.                                                                                                                                                                                                                                              string err: standard error output mode, either:                                                                                                                                                      "pipe": the error output is piped to the editor console (this is the default behavior).                                                                                                                                                        "stdout": the error output is redirected to the standard output of the process.                                                                                                                                                        "discard": the error output is discarded completely.                                                                                                                                                                                            
 ---@return nil|string result If out option is set to "capture", returns the output as string with trimmed trailing newlines. Otherwise, returns nil.
 function editor.execute(command, ..., options) end
 
@@ -401,7 +401,7 @@ function editor.prefs.is_set(key) end
 function editor.prefs.schema.array(opts) end
 
 ---boolean schema
----@param opts { default:boolean|nil, scope:string|nil } Optional opts: default booleandefault valuescope stringpreference scope; either: editor.prefs.SCOPE.GLOBAL: same preference value is used in every project on this computereditor.prefs.SCOPE.PROJECT: a separate preference value per project
+---@param opts? table Optional opts: default booleandefault valuescope stringpreference scope; either: editor.prefs.SCOPE.GLOBAL: same preference value is used in every project on this computereditor.prefs.SCOPE.PROJECT: a separate preference value per project
 ---@return editor.schema value Prefs schema
 function editor.prefs.schema.boolean(opts) end
 
@@ -411,18 +411,18 @@ function editor.prefs.schema.boolean(opts) end
 function editor.prefs.schema.enum(opts) end
 
 ---integer schema
----@param opts { default:integer|nil, scope:string|nil } Optional opts: default integerdefault valuescope stringpreference scope; either: editor.prefs.SCOPE.GLOBAL: same preference value is used in every project on this computereditor.prefs.SCOPE.PROJECT: a separate preference value per project
+---@param opts? table Optional opts: default integerdefault valuescope stringpreference scope; either: editor.prefs.SCOPE.GLOBAL: same preference value is used in every project on this computereditor.prefs.SCOPE.PROJECT: a separate preference value per project
 ---@return editor.schema value Prefs schema
 function editor.prefs.schema.integer(opts) end
 
 ---keyword schema
 ---A keyword is a short string that is interned within the editor runtime, useful e.g. for identifiers
----@param opts { default:string|nil, scope:string|nil } Optional opts: default stringdefault valuescope stringpreference scope; either: editor.prefs.SCOPE.GLOBAL: same preference value is used in every project on this computereditor.prefs.SCOPE.PROJECT: a separate preference value per project
+---@param opts? table Optional opts: default stringdefault valuescope stringpreference scope; either: editor.prefs.SCOPE.GLOBAL: same preference value is used in every project on this computereditor.prefs.SCOPE.PROJECT: a separate preference value per project
 ---@return editor.schema value Prefs schema
 function editor.prefs.schema.keyword(opts) end
 
 ---floating-point number schema
----@param opts { default:number|nil, scope:string|nil } Optional opts: default numberdefault valuescope stringpreference scope; either: editor.prefs.SCOPE.GLOBAL: same preference value is used in every project on this computereditor.prefs.SCOPE.PROJECT: a separate preference value per project
+---@param opts? table Optional opts: default numberdefault valuescope stringpreference scope; either: editor.prefs.SCOPE.GLOBAL: same preference value is used in every project on this computereditor.prefs.SCOPE.PROJECT: a separate preference value per project
 ---@return editor.schema value Prefs schema
 function editor.prefs.schema.number(opts) end
 
@@ -438,7 +438,7 @@ function editor.prefs.schema.object_of(opts) end
 
 ---password schema
 ---A password is a string that is encrypted when stored in a preference file
----@param opts table Optional opts: default stringdefault valuescope stringpreference scope; either: editor.prefs.SCOPE.GLOBAL: same preference value is used in every project on this computereditor.prefs.SCOPE.PROJECT: a separate preference value per project
+---@param opts? table Optional opts: default stringdefault valuescope stringpreference scope; either: editor.prefs.SCOPE.GLOBAL: same preference value is used in every project on this computereditor.prefs.SCOPE.PROJECT: a separate preference value per project
 ---@return editor.schema value Prefs schema
 function editor.prefs.schema.password(opts) end
 
@@ -449,7 +449,7 @@ function editor.prefs.schema.password(opts) end
 function editor.prefs.schema.set(opts) end
 
 ---string schema
----@param opts { default:string|nil, scope:string|nil } Optional opts: default stringdefault valuescope stringpreference scope; either: editor.prefs.SCOPE.GLOBAL: same preference value is used in every project on this computereditor.prefs.SCOPE.PROJECT: a separate preference value per project
+---@param opts? table Optional opts: default stringdefault valuescope stringpreference scope; either: editor.prefs.SCOPE.GLOBAL: same preference value is used in every project on this computereditor.prefs.SCOPE.PROJECT: a separate preference value per project
 ---@return editor.schema value Prefs schema
 function editor.prefs.schema.string(opts) end
 
@@ -605,17 +605,17 @@ function editor.ui.separator(props) end
 function editor.ui.show_dialog(dialog) end
 
 ---Show a modal OS directory selection dialog and await a result
----@param opts table path stringinitial file or directory path used by the dialog; resolved against project root if relativetitle stringOS window title
+---@param opts? table path stringinitial file or directory path used by the dialog; resolved against project root if relativetitle stringOS window title
 ---@return string|nil value either absolute directory path or nil if user canceled directory selection
 function editor.ui.show_external_directory_dialog(opts) end
 
 ---Show a modal OS file selection dialog and await a result
----@param opts table path stringinitial file or directory path used by the dialog; resolved against project root if relativetitle stringOS window titlefilters table[]File filters, an array of filter tables, where each filter has following keys:description stringstring explaining the filter, e.g. "Text files (*.txt)"extensions string[]array of file extension patterns, e.g. "*.txt", "*.*" or "game.project"
+---@param opts? table path stringinitial file or directory path used by the dialog; resolved against project root if relativetitle stringOS window titlefilters table[]File filters, an array of filter tables, where each filter has following keys:description stringstring explaining the filter, e.g. "Text files (*.txt)"extensions string[]array of file extension patterns, e.g. "*.txt", "*.*" or "game.project"
 ---@return string|nil value either absolute file path or nil if user canceled file selection
 function editor.ui.show_external_file_dialog(opts) end
 
 ---Show a modal resource selection dialog and await a result
----@param opts table extensions string[]if specified, restricts selectable resources in the dialog to specified file extensions; e.g. {"collection", "go"}selection stringeither "single" or "multiple", defaults to "single"title stringdialog title, defaults to "Select Resource"
+---@param opts? table extensions string[]if specified, restricts selectable resources in the dialog to specified file extensions; e.g. {"collection", "go"}selection stringeither "single" or "multiple", defaults to "single"title stringdialog title, defaults to "Select Resource"
 ---@return string|string[ value |nil] if user made no selection, returns nil. Otherwise, if selection mode is "single", returns selected resource path; otherwise returns a non-empty array of selected resource paths.
 function editor.ui.show_resource_dialog(opts) end
 
@@ -627,14 +627,14 @@ function editor.ui.string_field(props) end
 ---A hook that caches the result of a computation between re-renders.
 ---See editor.ui.component for hooks caveats and rules. If any of the arguments to use_memo change during a component refresh (checked with ==), the value will be recomputed.
 ---@param compute function function that will be used to compute the cached value
----@param ... any args to the computation function
+---@param ...? ...any args to the computation function
 ---@return any ... values all returned values of the compute function
 function editor.ui.use_memo(compute, ...) end
 
 ---A hook that adds local state to the component.
 ---See editor.ui.component for hooks caveats and rules. If any of the arguments to use_state change during a component refresh (checked with ==), the current state will be reset to the initial one.
 ---@param init any|function local state initializer, either initial data structure or function that produces the data structure
----@param ... any used when init is a function, the args are passed to the initializer function
+---@param ...? ...any used when init is a function, the args are passed to the initializer function
 ---@return any state current local state, starts with initial state, then may be changed using the returned set_state function
 ---@return function set_state function that changes the local state and causes the component to refresh. The function may be used in 2 ways:                                                    to set the state to some other data structure: pass the data structure as a value                           to replace the state using updater function: pass a function to set_state — it will be invoked with the current state, as well as with the rest of the arguments passed to set_state after the updater function. The state will be set to the value returned from the updater function                         
 function editor.ui.use_state(init, ...) end
@@ -646,49 +646,49 @@ function editor.ui.vertical(props) end
 
 ---Perform an HTTP request
 ---@param url string request URL
----@param opts table Additional request options, a table with the following keys:method stringrequest method, defaults to "GET"headers tablerequest headers, a table with string keys and valuesbody stringrequest bodyas stringresponse body converter, either "string" or "json"
+---@param opts? table Additional request options, a table with the following keys:method stringrequest method, defaults to "GET"headers tablerequest headers, a table with string keys and valuesbody stringrequest bodyas stringresponse body converter, either "string" or "json"
 ---@return table response HTTP response, a table with the following keys:status integerresponse codeheaders tableresponse headers, a table where each key is a lower-cased string, and each value is either a string or an array of strings if the header was repeatedbody string, any, nilresponse body, present only when as option was provided, either a string or a parsed json value
 function http.request(url, opts) end
 
 ---Create HTTP response that will stream the content of a file defined by the path
 ---@param path string External file path, resolved against project root if relative
----@param status integer HTTP status code, an integer, default 200
----@param headers table<string, string> HTTP response headers, a table from lower-case header names to header values
+---@param status? integer HTTP status code, an integer, default 200
+---@param headers? table&lt;string,string&gt; HTTP response headers, a table from lower-case header names to header values
 ---@return response response HTTP response value, userdata
 function http.server.external_file_response(path, status, headers) end
 
 ---Create HTTP response with a JSON value
 ---@param value any Any Lua value that may be represented as JSON
----@param status integer HTTP status code, an integer, default 200
----@param headers table<string, string> HTTP response headers, a table from lower-case header names to header values
+---@param status? integer HTTP status code, an integer, default 200
+---@param headers? table&lt;string,string&gt; HTTP response headers, a table from lower-case header names to header values
 ---@return response response HTTP response value, userdata
 function http.server.json_response(value, status, headers) end
 
 ---Create HTTP response that will stream the content of a resource defined by the resource path
 ---@param resource_path string Resource path (starting with /)
----@param status integer HTTP status code, an integer, default 200
----@param headers table<string, string> HTTP response headers, a table from lower-case header names to header values
+---@param status? integer HTTP status code, an integer, default 200
+---@param headers? table&lt;string,string&gt; HTTP response headers, a table from lower-case header names to header values
 ---@return response response HTTP response value, userdata
 function http.server.resource_response(resource_path, status, headers) end
 
 ---Create HTTP response
----@param status integer HTTP status code, an integer, default 200
----@param headers table<string, string> HTTP response headers, a table from lower-case header names to header values
----@param body string HTTP response body
+---@param status? integer HTTP status code, an integer, default 200
+---@param headers? table&lt;string,string&gt; HTTP response headers, a table from lower-case header names to header values
+---@param body? string HTTP response body
 ---@return response response HTTP response value, userdata
 function http.server.response(status, headers, body) end
 
 ---Create route definition for the editor's HTTP server
 ---@param path string HTTP URI path, starts with /; may include path patterns ({name} for a single segment and {*name} for the rest of the request path) that will be extracted from the path and provided to the handler as a part of the request
----@param method string HTTP request method, default "GET"
----@param as string Request body converter, either "string" or "json"; the body will be discarded if not specified
+---@param method? string HTTP request method, default "GET"
+---@param as? string Request body converter, either "string" or "json"; the body will be discarded if not specified
 ---@param handler function Request handler function, will receive request argument, a table with the following keys:path stringfull matched path, a string starting with /method stringHTTP request method, e.g. "POST"headers table<string,(string|string[])>HTTP request headers, a table from lower-case header names to header valuesquery stringoptional query stringbody string, anyoptional request body, depends on the as argument Handler function should return either a single response value, or 0 or more arguments to the http.server.response() function
 ---@return route route HTTP server route
 function http.server.route(path, method, as, handler) end
 
 ---Decode JSON string to Lua value
 ---@param json string json data
----@param options { decode_null_as_userdata:boolean|nil } A table with the following keys:all booleanif true, decodes all json values in a string and returns an array
+---@param options? table A table with the following keys:all booleanif true, decodes all json values in a string and returns an array
 function json.decode(json, options) end
 
 ---Encode Lua value to JSON string
@@ -745,7 +745,7 @@ function tilemap.tiles.set(tiles, x, y, tile_or_info) end
 
 ---Create a ZIP archive
 ---@param output_path string output zip file path, resolved against project root if relative
----@param opts { method:string|nil, level:integer|nil } compression options, a table with the following keys:method stringcompression method, either zip.METHOD.DEFLATED (default) or zip.METHOD.STOREDlevel integercompression level, an integer between 0 and 9, only useful when the compression method is zip.METHOD.DEFLATED; defaults to 6
+---@param opts? table compression options, a table with the following keys:method stringcompression method, either zip.METHOD.DEFLATED (default) or zip.METHOD.STOREDlevel integercompression level, an integer between 0 and 9, only useful when the compression method is zip.METHOD.DEFLATED; defaults to 6
 ---@param entries string|table entries to compress, either a string (relative path to file or folder to include) or a table with the following keys:1 stringrequired; source file or folder path to include, resolved against project root if relative2 stringoptional; target file or folder path in the zip archive. May be omitted if source is a relative path that does not go above the project directory.method stringcompression method, either zip.METHOD.DEFLATED (default) or zip.METHOD.STOREDlevel integercompression level, an integer between 0 and 9, only useful when the compression method is zip.METHOD.DEFLATED; defaults to 6
 function zip.pack(output_path, opts, entries) end
 

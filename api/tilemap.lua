@@ -101,7 +101,7 @@ function tilemap.get_tiles(url, layer) end
 ---@param x number x-coordinate of the tile
 ---@param y number y-coordinate of the tile
 ---@param tile number index of new tile to set. 0 resets the cell
----@param transform_bitmask number optional flip and/or rotation should be applied to the tile
+---@param transform_bitmask? number optional flip and/or rotation should be applied to the tile
 function tilemap.set_tile(url, layer, x, y, tile, transform_bitmask) end
 
 ---Sets the visibility of the tilemap layer

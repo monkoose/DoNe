@@ -149,6 +149,9 @@ http.server = {}
 ---@class socket.dns
 socket.dns = {}
 
+---@class tilemap.tiles
+tilemap.tiles = {}
+
 ---@class url
 ---@field fragment hash
 ---@field path hash

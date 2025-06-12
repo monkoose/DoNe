@@ -30,10 +30,10 @@ function html5.run(code) end
 ---The callback can then call DOM restricted actions like requesting a pointer lock,
 ---or start playing sounds the first time the callback is invoked.
 ---@param callback fun(self)|nil The interaction callback. Pass an empty function or nil if you no longer wish to receive callbacks.
----
----self
----object The calling script
----
+---  
+---  self
+---  object The calling script
+---  
 function html5.set_interaction_listener(callback) end
 
 return html5
